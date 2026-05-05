@@ -1,23 +1,13 @@
 /*
- * 首页：深空蓝全屏沉浸 + 白字开放式布局（无边框卡片感）
- * 仅当存在 .landing-hero 时生效，其它页面保持 Material 默认。
+ * 全站：深空蓝配色 — 统一背景、前景与品牌变量
  */
-html:has(.landing-hero) {
-    background-color: #0a1528;
-    min-height: 100%;
-}
-
-body:has(.landing-hero) {
-    /* 深空蓝：提高明度与蓝通道，避免落成纯黑 */
+:root {
     --dl-space-bg: #0a1528;
     --dl-space-bg-mid: #142845;
     --dl-space-bg-glow: #1e5590;
+}
 
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    min-height: 100dvh;
-
+[data-md-color-scheme="slate"] {
     --md-default-bg-color: var(--dl-space-bg);
     --md-default-fg-color: #f7f8fc;
     --md-default-fg-color--light: #e2e8f4;
@@ -25,13 +15,13 @@ body:has(.landing-hero) {
     --md-typeset-color: #f2f5fb;
     --md-typeset-a-color: #e8f0ff;
     --md-typeset-mark-color: rgba(255, 255, 255, 0.12);
-
     --md-code-bg-color: rgba(255, 255, 255, 0.08);
     --md-code-fg-color: #f0f3fa;
-
     --md-accent-fg-color: #ffffff;
     --md-primary-fg-color: #f5f7fb;
+}
 
+body {
     background-attachment: fixed;
     background-color: var(--dl-space-bg);
     background-image:
@@ -49,22 +39,51 @@ body:has(.landing-hero) {
     color: var(--md-typeset-color);
 }
 
+/* 全站容器透明，让 body 深空蓝透出来 */
+.md-container,
+.md-main,
+.md-content,
+.md-content__inner,
+.md-sidebar,
+.md-sidebar__scrollwrap,
+.md-footer,
+.md-footer-meta {
+    background-color: transparent;
+}
+
+.md-header,
+.md-tabs {
+    background-color: rgba(12, 28, 52, 0.05);
+    border-bottom: none;
+    box-shadow: none;
+}
+
+/*
+ * 首页专属：Hero 沉浸式布局
+ * 仅当存在 .landing-hero 时生效。
+ */
+html:has(.landing-hero) {
+    background-color: var(--dl-space-bg);
+    min-height: 100%;
+}
+
+body:has(.landing-hero) {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
 body:has(.landing-hero) .md-container {
-    background: transparent;
     flex: 1 1 auto;
     min-height: 0;
     position: relative;
     z-index: 1;
 }
 
-/* 主壳透明，避免盖住 fixed 画布；对标全站底图式首页（如 Zensical） */
-body:has(.landing-hero) .md-main,
-body:has(.landing-hero) .md-content {
-    background-color: transparent;
-}
-
 /* 全视口吸引子画布：四边钉死视口，避免局部「只有 hero 在动」的错觉 */
 canvas#deeplink-attractor-canvas.deeplink-attractor-canvas {
+    background: transparent;
     bottom: 0;
     height: 100%;
     left: 0;
@@ -84,21 +103,6 @@ body:has(.landing-hero) .md-main__inner {
     margin: 0;
     max-width: none;
     min-height: 0;
-}
-
-body:has(.landing-hero) .md-header {
-    backdrop-filter: blur(14px);
-    /* 95% 透明 → 底色不透明度 5% */
-    background-color: rgba(12, 28, 52, 0.05);
-    border-bottom: none;
-    box-shadow: none;
-    color: var(--md-primary-fg-color);
-}
-
-body:has(.landing-hero) .md-tabs {
-    background-color: rgba(12, 28, 52, 0.05);
-    border-bottom: none;
-    box-shadow: none;
 }
 
 /* 自定义顶栏 SVG 徽标（overrides/partials/logo.html），与主题 md-icon 尺寸对齐 */

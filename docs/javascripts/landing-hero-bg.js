@@ -1,7 +1,10 @@
 /**
- * 首页吸引子背景：积分与缓冲逻辑自 docs-master/render.js 22607–22660（ca / oc / c0 + copyWithin），
- * 视角为时间 t 的解析连续函数（多频 sin/cos），无关键帧接缝与低通滞后。
- * 画布全视口 fixed；兼容 navigation.instant。绘制用 source-over + 取样步长，减轻 lighter 叠出过亮中线。
+ * 首页吸引子背景。
+ * 相机：分段线性插值 eye/center 的导演式镜头，世界 up=(0,1,0)、fov=90°、near=1e-4；
+ * 投影：真透视除法 screen = focal * coord / depth；
+ * 雾：linear near=1 / far=6，按折线中点深度作 alpha 衰减；
+ * 粒子：固定条带 + 恒星调色板 STAR_PALETTE，透明度 = baseOpacity × fog；
+ * 画布全视口 fixed，兼容 navigation.instant，绘制用 source-over + 取样步长。
  */
 (function () {
   "use strict";
@@ -11,7 +14,6 @@
   var teardown = null;
   var scheduleToken = 0;
 
-  // —— 以下与 render.js 一致（22607–22637, 22731–22660）——
   var ca = 4;
   var oc = 0.05 / ca;
   var Ci = {
@@ -22,17 +24,33 @@
     epsilon: 0.25,
     zeta: 0.1,
   };
-  /** render.js: Float32Array(768 * ca)，每条线 256*ca 个三维点 */
+  /** 每条折线 256 * ca 个三维点（每点 3 个 float） */
   var bufLen = 768 * ca;
-  /** render.js 为 100 条；Canvas2D 略减以控帧耗时 */
+  /** 折线条数；Canvas2D 略减以控帧耗时 */
   var defaultSplineCount = 72;
-  /** render.js 为 1200；分帧执行，总次数一致 */
+  /** 总预热步数；分帧执行避免阻塞主线程 */
   var warmupFrames = 1200;
-  /** 每帧预热批次数（render.js 是一次性同步跑完） */
+  /** 每帧异步预热批次数 */
   var warmupBatchPerRaf = 80;
 
   /**
-   * render.js 22647–22659，仅将 n.position 改为传入的 Float32Array。
+   * 恒星色系 + 线宽系数 lineMul（与光谱型 / 典型质量序粗对应，黑底上可读）。
+   * stroke: r,g,b；shadow: gr,gg,gb；lineMul：大质量高温星略粗，M 型红矮略细。
+   */
+  var STAR_PALETTE = [
+    { r: 252, g: 252, b: 255, gr: 238, gg: 242, gb: 255, lineMul: 1.1 }, // A 型偏白
+    { r: 228, g: 238, b: 255, gr: 200, gg: 225, gb: 255, lineMul: 1.18 }, // B 蓝白
+    { r: 165, g: 210, b: 255, gr: 130, gg: 190, gb: 255, lineMul: 1.22 }, // B 蓝
+    { r: 120, g: 185, b: 255, gr: 90, gg: 165, gb: 255, lineMul: 1.28 }, // O/B 高温、大质量
+    { r: 255, g: 248, b: 230, gr: 255, gg: 252, gb: 220, lineMul: 1.02 }, // F 黄白
+    { r: 255, g: 225, b: 140, gr: 255, gg: 210, gb: 110, lineMul: 0.98 }, // G 类日
+    { r: 255, g: 165, b: 115, gr: 255, gg: 140, gb: 85, lineMul: 0.82 }, // K 橙
+    { r: 255, g: 115, b: 100, gr: 255, gg: 90, gb: 75, lineMul: 0.68 }, // M 红矮、小质量
+  ];
+
+  /**
+   * 吸引子的一步积分：欧拉法推进 n.position[0..2] 一个步长，
+   * 同时把整条折线的旧顶点向后平移 3 个 float（copyWithin），形成尾部拖痕。
    * @param {{ position: Float32Array }} n
    * @param {typeof Ci} t
    */
@@ -59,52 +77,6 @@
     n.position[0] = c + h;
     n.position[1] = l + f;
     n.position[2] = d + p;
-  }
-
-  /**
-   * 视角：对时间 t（秒）的 C∞ 解析式，多频 sin/cos 叠加、角频率不成整数比，
-   * 避免关键帧分段与周期锁相带来的跳变；与 render.js 多段 camera 同属「慢漫游」效果，实现更轻。
-   */
-  var viewYaw = 0;
-  var viewPitch = 0;
-  var viewRoll = 0;
-
-  function updateViewAnglesContinuous(tSec) {
-    var T = tSec;
-    viewYaw =
-      0.72 +
-      0.17 * Math.sin(T * 0.103) +
-      0.065 * Math.sin(T * 0.179 + 0.41);
-    viewPitch =
-      0.34 +
-      0.095 * Math.sin(T * 0.071 + 1.12) +
-      0.048 * Math.cos(T * 0.121 + 0.22);
-    viewRoll =
-      0.2 +
-      0.11 * Math.sin(T * 0.088 + 2.05) +
-      0.055 * Math.sin(T * 0.0973 + 0.67);
-  }
-
-  updateViewAnglesContinuous(0);
-
-  function projectRotated(c, l, d) {
-    var cy = Math.cos(viewYaw);
-    var sy = Math.sin(viewYaw);
-    var x1 = cy * c + sy * d;
-    var y1 = l;
-    var z1 = -sy * c + cy * d;
-
-    var cp = Math.cos(viewPitch);
-    var sp = Math.sin(viewPitch);
-    var x2 = x1;
-    var y2 = cp * y1 - sp * z1;
-
-    var cr = Math.cos(viewRoll);
-    var sr = Math.sin(viewRoll);
-    return {
-      xs: cr * x2 - sr * y2,
-      ys: sr * x2 + cr * y2,
-    };
   }
 
   function prefersReducedMotion() {
@@ -146,14 +118,15 @@
   }
 
   function splineStrokeAlpha(seed) {
-    return (0.1 + seed * 0.1).toFixed(3);
+    return (0.2 + seed * 0.15).toFixed(3);
   }
   function splineGlowAlpha(seed) {
-    return (0.12 + seed * 0.1).toFixed(3);
+    return (0.24 + seed * 0.15).toFixed(3);
   }
 
   function initAttractor2D(canvas) {
-    var ctx = canvas.getContext("2d", { alpha: false });
+    /* alpha: true 让 body 与内页相同的 CSS 渐变透出；避免 opaque 画布清屏成黑底导致整站首页与内页色差 */
+    var ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
     var aborted = false;
@@ -161,110 +134,262 @@
     var NSPLINES = defaultSplineCount;
     var splines = [];
     var si;
+    function assignParticleVisual(sp) {
+      sp.star = STAR_PALETTE[Math.floor(Math.random() * STAR_PALETTE.length)];
+      /* alpha 微调，不参与色相 */
+      sp.baseOpacity = 0.65 + (Math.random() - 0.5) * 0.35;
+    }
+
     for (si = 0; si < NSPLINES; si++) {
       var pos = new Float32Array(bufLen);
       pos[0] = Math.random() - 0.5;
       pos[1] = Math.random() - 0.5;
       pos[2] = Math.random() - 0.5;
-      splines.push({
+      var spNew = {
         position: pos,
         seed: Math.random(),
         width: 0.45 + Math.random() * 0.65,
-      });
+      };
+      assignParticleVisual(spNew);
+      splines.push(spNew);
+    }
+
+    /**
+     * 相机段序列：每段 length 帧从 source(eye0/center0) 线性插值到 target(eye1/center1)，
+     * 一段播完直接切到下一段（导演式硬切）。
+     */
+    var RENDER_JS_CAMERA_SEGMENTS = [
+      {
+        length: 500,
+        ex0: -1.60744,
+        ey0: 1.47329,
+        ez0: -2.62968,
+        cx0: 0.141248,
+        cy0: -0.0999439,
+        cz0: 0.850354,
+        ex1: -1.16954,
+        ey1: 1.24522,
+        ez1: -2.71477,
+        cx1: 0.147224,
+        cy1: -0.0702744,
+        cz1: 0.859073,
+      },
+      {
+        length: 1500,
+        ex0: 0.0631833,
+        ey0: 1.28423,
+        ez0: -0.827955,
+        cx0: 0.0631833,
+        cy0: 0.00244161,
+        cz0: -0.827957,
+        ex1: -0.0118442,
+        ey1: 0.846686,
+        ez1: -1.85947,
+        cx1: -0.0118554,
+        cy1: 0.00845868,
+        cz1: -1.86433,
+      },
+      {
+        length: 1500,
+        ex0: -1.65924e-9,
+        ey0: 2.39657,
+        ez0: 2.40252e-6,
+        cx0: 0,
+        cy0: 0,
+        cz0: 0,
+        ex1: -7.03221e-7,
+        ey1: 2.37576,
+        ez1: 2.27079e-6,
+        cx1: 0,
+        cy1: 0,
+        cz1: 0,
+      },
+      {
+        length: 1000,
+        ex0: -1.57788,
+        ey0: 0.0300631,
+        ez0: -1.48228,
+        cx0: 0,
+        cy0: 0,
+        cz0: 0,
+        ex1: -1.28756,
+        ey1: -0.00862695,
+        ez1: -1.01241,
+        cx1: 0,
+        cy1: 0,
+        cz1: 0,
+      },
+      {
+        length: 1000,
+        ex0: 0,
+        ey0: 1.3595e-16,
+        ez0: 2.22023,
+        cx0: 0,
+        cy0: 0,
+        cz0: 0,
+        ex1: 0,
+        ey1: 1.25431e-16,
+        ez1: 2.04844,
+        cx1: 0,
+        cy1: 0,
+        cz1: 0,
+      },
+      {
+        length: 500,
+        ex0: 0.99935,
+        ey0: 1.32445,
+        ez0: -2.86713,
+        cx0: 0.0188739,
+        cy0: 0.194861,
+        cz0: 0.105587,
+        ex1: 1.67574,
+        ey1: 0.795462,
+        ez1: -2.71725,
+        cx1: 0.0188739,
+        cy1: 0.194861,
+        cz1: 0.105587,
+      },
+      {
+        length: 1000,
+        ex0: 0.00434437,
+        ey0: 0.171172,
+        ez0: -1.56255,
+        cx0: -0.0261481,
+        cy0: -4.17146e-22,
+        cz0: -0.000100017,
+        ex1: -4.56078e-6,
+        ey1: 0.0521422,
+        ez1: -1.15426,
+        cx1: -0.0261481,
+        cy1: -4.17146e-22,
+        cz1: -0.000100017,
+      },
+      {
+        length: 1000,
+        ex0: -0.838463,
+        ey0: 0.602458,
+        ez0: -0.156669,
+        cx0: -1.45554,
+        cy0: -0.346908,
+        cz0: -2.54362,
+        ex1: -0.56783,
+        ey1: 0.450686,
+        ez1: -0.413958,
+        cx1: -1.45554,
+        cy1: -0.346908,
+        cz1: -2.54362,
+      },
+    ];
+
+    var eyeX = RENDER_JS_CAMERA_SEGMENTS[0].ex0;
+    var eyeY = RENDER_JS_CAMERA_SEGMENTS[0].ey0;
+    var eyeZ = RENDER_JS_CAMERA_SEGMENTS[0].ez0;
+    var centerX = RENDER_JS_CAMERA_SEGMENTS[0].cx0;
+    var centerY = RENDER_JS_CAMERA_SEGMENTS[0].cy0;
+    var centerZ = RENDER_JS_CAMERA_SEGMENTS[0].cz0;
+
+    var renderJsCameraAnim = { segmentIndex: 0, progress: 0 };
+
+    function stepRenderJsCamera() {
+      var segs = RENDER_JS_CAMERA_SEGMENTS;
+      var idx = renderJsCameraAnim.segmentIndex;
+      var seg = segs[idx];
+      var L = seg.length;
+      var p = renderJsCameraAnim.progress;
+      if (p >= L) {
+        renderJsCameraAnim.segmentIndex = (idx + 1) % segs.length;
+        renderJsCameraAnim.progress = 0;
+        idx = renderJsCameraAnim.segmentIndex;
+        seg = segs[idx];
+        L = seg.length;
+        p = 0;
+      }
+      var u = p / L;
+      eyeX = seg.ex0 + (seg.ex1 - seg.ex0) * u;
+      eyeY = seg.ey0 + (seg.ey1 - seg.ey0) * u;
+      eyeZ = seg.ez0 + (seg.ez1 - seg.ez0) * u;
+      centerX = seg.cx0 + (seg.cx1 - seg.cx0) * u;
+      centerY = seg.cy0 + (seg.cy1 - seg.cy0) * u;
+      centerZ = seg.cz0 + (seg.cz1 - seg.cz0) * u;
+      renderJsCameraAnim.progress++;
+    }
+
+    /**
+     * lookAt 投影：返回相机坐标系下的右向 xs、上向 ys、前向深度 zs（zs>0 表示在相机前方）。
+     * 世界 up=(0,1,0)；当 forward 与 up 几乎平行时切到稳定备选 (0,0,1)，
+     * 阈值 0.9999 极窄以避免镜头滚转跳变。
+     */
+    function lookAtProjectFrom(ex, ey, ez, wc, wl, wd) {
+      var fx = centerX - ex;
+      var fy = centerY - ey;
+      var fz = centerZ - ez;
+      var flen = Math.sqrt(fx * fx + fy * fy + fz * fz);
+      if (flen < 1e-9) return { xs: 0, ys: 0, zs: 1 };
+      fx /= flen;
+      fy /= flen;
+      fz /= flen;
+      var wux = 0;
+      var wuy = 1;
+      var wuz = 0;
+      if (Math.abs(fx * wux + fy * wuy + fz * wuz) > 0.9999) {
+        wux = 0;
+        wuy = 0;
+        wuz = 1;
+      }
+      var rx = fy * wuz - fz * wuy;
+      var ry = fz * wux - fx * wuz;
+      var rz = fx * wuy - fy * wux;
+      var rlen = Math.sqrt(rx * rx + ry * ry + rz * rz);
+      if (rlen < 1e-9) return { xs: 0, ys: 0, zs: flen };
+      rx /= rlen;
+      ry /= rlen;
+      rz /= rlen;
+      var upx = ry * fz - rz * fy;
+      var upy = rz * fx - rx * fz;
+      var upz = rx * fy - ry * fx;
+      var vx = wc - ex;
+      var vy = wl - ey;
+      var vz = wd - ez;
+      return {
+        xs: vx * rx + vy * ry + vz * rz,
+        ys: vx * upx + vy * upy + vz * upz,
+        zs: vx * fx + vy * fy + vz * fz,
+      };
+    }
+
+    function lookAtProject(wc, wl, wd) {
+      return lookAtProjectFrom(eyeX, eyeY, eyeZ, wc, wl, wd);
     }
 
     var prevCanvasW = 0;
     var prevCanvasH = 0;
-    /** 用于 toScreen 的包围盒（指数平滑后，减轻 scale 跳变） */
-    var bbMinX = 0;
-    var bbMaxX = 1;
-    var bbMinY = 0;
-    var bbMaxY = 1;
-    /** 本帧采样得到的原始包围盒，作为平滑目标 */
-    var bbRawMinX = 0;
-    var bbRawMaxX = 1;
-    var bbRawMinY = 0;
-    var bbRawMaxY = 1;
-    /** 每次 refresh 得到的投影中心目标；viewCx/viewCy 指数移向此处，避免中心瞬跳 */
-    var rawCx = 0;
-    var rawCy = 0;
-    var viewCx = 0;
-    var viewCy = 0;
-    var bbSmoothInited = false;
-    /** 包围盒边：越大越跟手、越小越稳（ms） */
-    var bboxSmoothTauMs = 520;
-    /** 中心单独略慢一档，移动感更明显、更稳 */
-    var centerSmoothTauMs = 780;
-
-    function refreshBboxRaw() {
-      var minX = Infinity;
-      var maxX = -Infinity;
-      var minY = Infinity;
-      var maxY = -Infinity;
-      var s;
-      var idx;
-      var step = 9;
-      var pr;
-      for (s = 0; s < splines.length; s++) {
-        var buf = splines[s].position;
-        for (idx = 0; idx < bufLen; idx += 3 * step) {
-          pr = projectRotated(buf[idx], buf[idx + 1], buf[idx + 2]);
-          if (pr.xs < minX) minX = pr.xs;
-          if (pr.xs > maxX) maxX = pr.xs;
-          if (pr.ys < minY) minY = pr.ys;
-          if (pr.ys > maxY) maxY = pr.ys;
-        }
-      }
-      var pad = 0.055 * Math.max(maxX - minX, maxY - minY, 1e-6);
-      bbRawMinX = minX - pad;
-      bbRawMaxX = maxX + pad;
-      bbRawMinY = minY - pad;
-      bbRawMaxY = maxY + pad;
-      rawCx = (bbRawMinX + bbRawMaxX) * 0.5;
-      rawCy = (bbRawMinY + bbRawMaxY) * 0.5;
-    }
-
-    function snapBboxToRaw() {
-      bbMinX = bbRawMinX;
-      bbMaxX = bbRawMaxX;
-      bbMinY = bbRawMinY;
-      bbMaxY = bbRawMaxY;
-      viewCx = rawCx;
-      viewCy = rawCy;
-      bbSmoothInited = true;
-    }
-
-    function smoothBboxStep(dtMs) {
-      if (!bbSmoothInited) {
-        snapBboxToRaw();
-        return;
-      }
-      var dt = Math.min(120, Math.max(0, dtMs));
-      var a = 1 - Math.exp(-dt / bboxSmoothTauMs);
-      bbMinX += (bbRawMinX - bbMinX) * a;
-      bbMaxX += (bbRawMaxX - bbMaxX) * a;
-      bbMinY += (bbRawMinY - bbMinY) * a;
-      bbMaxY += (bbRawMaxY - bbMaxY) * a;
-      var aC = 1 - Math.exp(-dt / centerSmoothTauMs);
-      viewCx += (rawCx - viewCx) * aC;
-      viewCy += (rawCy - viewCy) * aC;
-    }
 
     /**
-     * 视口「铺满」映射：用 max(w/spanX, h/spanY) 做等比 cover，
-     * 避免原先 max(spanX,spanY)+min(w,h) 把图形缩进短边里、长边大片空黑的问题。
+     * 透视投影常量：fov=90 时 tan(45°) = 1 → focal = h * 0.5。
+     * 真透视除法保证缩放与中心由同一组 eye/center 算出，相机段切换时同步变化。
      */
-    function toScreen(xs, ys, w, h) {
-      var spanX = Math.max(bbMaxX - bbMinX, 1e-6);
-      var spanY = Math.max(bbMaxY - bbMinY, 1e-6);
-      var fill = 1.02;
-      var scale = Math.max((w * fill) / spanX, (h * fill) / spanY);
-      var mx = viewCx;
-      var my = viewCy;
+    var FOV_DEG = 90;
+    var TAN_HALF_FOV = Math.tan((FOV_DEG * Math.PI) / 360);
+    /** 透视相机的近平面 */
+    var NEAR_PLANE = 1e-4;
+    /** linear fog 距离范围：near 之内不衰减，far 之外完全淡出 */
+    var FOG_NEAR = 1.0;
+    var FOG_FAR = 6.0;
+
+    function toScreen(xs, ys, zs, w, h) {
+      var focal = (h * 0.5) / TAN_HALF_FOV;
+      var inv = 1 / Math.max(zs, NEAR_PLANE);
       return {
-        x: w * 0.5 + (xs - mx) * scale,
-        y: h * 0.5 + (ys - my) * scale,
+        x: w * 0.5 + xs * focal * inv,
+        y: h * 0.5 - ys * focal * inv,
       };
+    }
+
+    /** linear fog alpha：near 内为 1.0、far 外为 0.0，区间内线性衰减 */
+    function fogAlpha(zs) {
+      if (zs <= FOG_NEAR) return 1;
+      if (zs >= FOG_FAR) return 0;
+      return (FOG_FAR - zs) / (FOG_FAR - FOG_NEAR);
     }
 
     function syncSize() {
@@ -281,22 +406,12 @@
       prevCanvasH = nh;
       canvas.width = nw;
       canvas.height = nh;
-      refreshBboxRaw();
-      snapBboxToRaw();
     }
 
-    var frameCount = 0;
-    var viewStartMs = performance.now();
-    var lastDrawMs = performance.now();
-
-    /** 折线取样步长：>1 可明显降低「中间实心亮带」的线段密度（render.js WebGL 是连续三角带，Canvas 叠 lighter 易过曝） */
+    /** 折线取样步长：>1 可降低线段密度，避免重叠区过曝形成粗白带 */
     var drawStride = 2;
 
     function drawFrame() {
-      var nowFrame = performance.now();
-      var dtBb = Math.min(120, Math.max(0, nowFrame - lastDrawMs));
-      lastDrawMs = nowFrame;
-
       var w = canvas.width;
       var h = canvas.height;
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -308,57 +423,82 @@
       var pt;
 
       if (!prefersReducedMotion()) {
-        updateViewAnglesContinuous((nowFrame - viewStartMs) * 0.001);
+        stepRenderJsCamera();
       }
 
       for (k = 0; k < splines.length; k++) {
         c0(splines[k], Ci);
       }
 
-      frameCount++;
-      if ((frameCount & 15) === 0) {
-        refreshBboxRaw();
-      }
-      smoothBboxStep(dtBb);
-
       ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.fillStyle = "#0a1528";
-      ctx.fillRect(0, 0, w, h);
+      ctx.clearRect(0, 0, w, h);
 
-      var g0 = ctx.createRadialGradient(
-        w * 0.5,
-        h * 0.35,
-        0,
-        w * 0.5,
-        h * 0.55,
-        Math.max(w, h) * 0.95
-      );
-      g0.addColorStop(0, "rgba(48,120,220,0.14)");
-      g0.addColorStop(0.45, "rgba(14,36,72,0.08)");
-      g0.addColorStop(1, "rgba(6,14,32,0)");
-      ctx.fillStyle = g0;
-      ctx.fillRect(0, 0, w, h);
+      /* 底衬由 html/body 的 extra.css 负责，画布保持透明 */
 
-      /* 不用 lighter：重叠处亮度线性叠加易形成粗白条；source-over + 低 alpha + 弱光晕更克制 */
+      /* source-over + 低 alpha + 弱光晕：重叠处不会线性叠加成粗白条 */
       ctx.globalCompositeOperation = "source-over";
       var numVerts = 256 * ca;
       for (k = 0; k < splines.length; k++) {
         s = splines[k];
         buf = s.position;
+        var st = s.star;
+        /* 整段折线用中点深度算雾因子，作为 alpha 衰减乘子 */
+        var midOff = (numVerts >> 1) * 3;
+        var midPr = lookAtProject(
+          buf[midOff],
+          buf[midOff + 1],
+          buf[midOff + 2],
+        );
+        var fog = fogAlpha(midPr.zs);
+        if (fog <= 0.001) continue;
+
+        var opacityMul = s.baseOpacity * fog;
+        var strokeA = (
+          parseFloat(splineStrokeAlpha(s.seed)) * opacityMul
+        ).toFixed(3);
+        var glowA = (
+          parseFloat(splineGlowAlpha(s.seed)) * opacityMul
+        ).toFixed(3);
         ctx.strokeStyle =
-          "rgba(255,255,255," + splineStrokeAlpha(s.seed) + ")";
-        ctx.lineWidth = Math.max(0.6, s.width * dpr);
+          "rgba(" +
+          st.r +
+          "," +
+          st.g +
+          "," +
+          st.b +
+          "," +
+          strokeA +
+          ")";
+        /* 线宽：光谱 lineMul × width；seed 微调 */
+        var widthJitter = 0.9 + s.seed * 0.22;
+        ctx.lineWidth = Math.max(
+          0.48,
+          s.width * dpr * st.lineMul * widthJitter,
+        );
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
-        ctx.shadowBlur = 4 * dpr;
+        ctx.shadowBlur = (2.8 + st.lineMul * 4.2) * dpr;
         ctx.shadowColor =
-          "rgba(200,220,255," + splineGlowAlpha(s.seed) + ")";
+          "rgba(" +
+          st.gr +
+          "," +
+          st.gg +
+          "," +
+          st.gb +
+          "," +
+          glowA +
+          ")";
         ctx.beginPath();
         var started = false;
         for (q = numVerts - 1; q >= 0; q -= drawStride) {
           var o = q * 3;
-          pr = projectRotated(buf[o], buf[o + 1], buf[o + 2]);
-          pt = toScreen(pr.xs, pr.ys, w, h);
+          pr = lookAtProject(buf[o], buf[o + 1], buf[o + 2]);
+          /* 近平面后的点会反向投影、屏幕坐标爆炸，断笔避免拉出穿镜长线 */
+          if (pr.zs <= NEAR_PLANE) {
+            started = false;
+            continue;
+          }
+          pt = toScreen(pr.xs, pr.ys, pr.zs, w, h);
           if (!started) {
             ctx.moveTo(pt.x, pt.y);
             started = true;
@@ -369,19 +509,6 @@
         ctx.stroke();
       }
       ctx.shadowBlur = 0;
-
-      var vig = ctx.createRadialGradient(
-        w * 0.5,
-        h * 0.5,
-        Math.min(w, h) * 0.55,
-        w * 0.5,
-        h * 0.5,
-        Math.max(w, h) * 0.98
-      );
-      vig.addColorStop(0, "rgba(0,0,0,0)");
-      vig.addColorStop(1, "rgba(8,18,36,0.07)");
-      ctx.fillStyle = vig;
-      ctx.fillRect(0, 0, w, h);
     }
 
     function frame() {
@@ -411,7 +538,11 @@
     function runWarmupBatch() {
       if (aborted) return;
       var batch = 0;
-      for (; batch < warmupBatchPerRaf && warmDone < warmupFrames; batch++, warmDone++) {
+      for (
+        ;
+        batch < warmupBatchPerRaf && warmDone < warmupFrames;
+        batch++, warmDone++
+      ) {
         for (si = 0; si < splines.length; si++) {
           c0(splines[si], Ci);
         }
@@ -421,8 +552,6 @@
         return;
       }
       if (aborted) return;
-      refreshBboxRaw();
-      snapBboxToRaw();
       if (prefersReducedMotion()) {
         drawFrame();
       } else {
