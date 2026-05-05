@@ -1,0 +1,498 @@
+/*
+ * 首页：深空蓝全屏沉浸 + 白字开放式布局（无边框卡片感）
+ * 仅当存在 .landing-hero 时生效，其它页面保持 Material 默认。
+ */
+html:has(.landing-hero) {
+  background-color: #0a1528;
+  min-height: 100%;
+}
+
+body:has(.landing-hero) {
+  /* 深空蓝：提高明度与蓝通道，避免落成纯黑 */
+  --dl-space-bg: #0a1528;
+  --dl-space-bg-mid: #142845;
+  --dl-space-bg-glow: #1e5590;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  --md-default-bg-color: var(--dl-space-bg);
+  --md-default-fg-color: #f7f8fc;
+  --md-default-fg-color--light: #e2e8f4;
+  --md-default-fg-color--lighter: #c8d4ea;
+  --md-typeset-color: #f2f5fb;
+  --md-typeset-a-color: #e8f0ff;
+  --md-typeset-mark-color: rgba(255, 255, 255, 0.12);
+
+  --md-code-bg-color: rgba(255, 255, 255, 0.08);
+  --md-code-fg-color: #f0f3fa;
+
+  --md-accent-fg-color: #ffffff;
+  --md-primary-fg-color: #f5f7fb;
+
+  background-attachment: fixed;
+  background-color: var(--dl-space-bg);
+  background-image: radial-gradient(
+      100% 70% at 50% -15%,
+      var(--dl-space-bg-glow) 0%,
+      transparent 55%
+    ),
+    linear-gradient(180deg, #0e1c36 0%, var(--dl-space-bg) 42%, #070f1e 100%);
+  color: var(--md-typeset-color);
+}
+
+body:has(.landing-hero) .md-container {
+  background: transparent;
+  flex: 1 1 auto;
+  min-height: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* 主壳透明，避免盖住 fixed 画布；对标全站底图式首页（如 Zensical） */
+body:has(.landing-hero) .md-main,
+body:has(.landing-hero) .md-content {
+  background-color: transparent;
+}
+
+/* 全视口吸引子画布：四边钉死视口，避免局部「只有 hero 在动」的错觉 */
+canvas#deeplink-attractor-canvas.deeplink-attractor-canvas {
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 0;
+}
+
+body:has(.landing-hero) .md-main__inner {
+  flex: 1 1 auto;
+  height: auto;
+  margin: 0;
+  max-width: none;
+  min-height: 0;
+}
+
+body:has(.landing-hero) .md-header {
+  backdrop-filter: blur(14px);
+  /* 95% 透明 → 底色不透明度 5% */
+  background-color: rgba(12, 28, 52, 0.05);
+  border-bottom: none;
+  box-shadow: none;
+  color: var(--md-primary-fg-color);
+}
+
+body:has(.landing-hero) .md-tabs {
+  background-color: rgba(12, 28, 52, 0.05);
+  border-bottom: none;
+  box-shadow: none;
+}
+
+/* 首页：隐藏页眉内「当前页」长标题，保留站点名在 logo 区展示 */
+body:has(.landing-hero) [data-md-component="header-topic"] {
+  display: none;
+}
+
+/*
+ * 顶栏品牌：参考 Zensical，在图标右侧显示站点名（宽屏）。
+ * 不再使用 display:contents 强行单行，避免把标题挤没、布局脆弱。
+ */
+@media screen and (min-width: 45em) {
+  body:has(.landing-hero) [data-md-component="logo"] {
+    align-items: center;
+    display: inline-flex;
+    gap: 0.45rem;
+  }
+
+  body:has(.landing-hero) [data-md-component="logo"]::after {
+    content: "Deeplink Next";
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+
+  body:has(.landing-hero) .md-header__topic:first-child {
+    display: none;
+  }
+}
+
+body:has(.landing-hero) .md-tabs__link {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+body:has(.landing-hero) .md-tabs__link--active {
+  color: #fff;
+}
+
+body:has(.landing-hero) .md-search__form,
+body:has(.landing-hero) .md-search__input {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+body:has(.landing-hero) article.md-content__inner {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  color: #f4f6fb;
+  margin-inline: auto;
+  max-width: min(76rem, 100%);
+  padding: clamp(0.5rem, 2vw, 1.25rem) clamp(1rem, 5vw, 3rem) 3rem;
+}
+
+body:has(.landing-hero) article.md-content__inner h1,
+body:has(.landing-hero) article.md-content__inner h2,
+body:has(.landing-hero) article.md-content__inner h3,
+body:has(.landing-hero) article.md-content__inner h4 {
+  color: #fff;
+}
+
+body:has(.landing-hero) article.md-content__inner p,
+body:has(.landing-hero) article.md-content__inner li {
+  color: #eef2fa;
+}
+
+body:has(.landing-hero) article.md-content__inner hr {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+body:has(.landing-hero) article.md-content__inner a:not(.md-button) {
+  color: #fff;
+  text-decoration-color: rgba(255, 255, 255, 0.45);
+}
+
+body:has(.landing-hero) article.md-content__inner .md-typeset strong {
+  color: #fff;
+}
+
+body:has(.landing-hero) article.md-content__inner .md-typeset code {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #f6f8ff;
+}
+
+body:has(.landing-hero) article.md-content__inner .md-typeset pre {
+  background-color: rgba(0, 0, 0, 0.35);
+  border: none;
+}
+
+body:has(.landing-hero) article.md-content__inner .md-typeset .highlighttable,
+body:has(.landing-hero) article.md-content__inner .md-typeset .linenos {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+body:has(.landing-hero) .md-footer {
+  background-color: rgba(8, 20, 40, 0.88);
+  border-top: none;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+body:has(.landing-hero) .md-footer-meta {
+  background-color: transparent;
+}
+
+body:has(.landing-hero) .md-pagination {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+body:has(.landing-hero) .md-pagination__link {
+  color: #fff;
+}
+
+body:has(.landing-hero) .md-nav--secondary {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+body:has(.landing-hero) .md-nav__link--active {
+  color: #fff;
+}
+
+/* 演进卡片：无描边、轻分隔，开放式 */
+body:has(.landing-hero) .evolution-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: none;
+  border-radius: 0;
+  padding: 1.25rem 0;
+}
+
+body:has(.landing-hero) .evolution-grid {
+  border: none;
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 900px) {
+  body:has(.landing-hero) .evolution-grid {
+    gap: 2.5rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+body:has(.landing-hero) .grid.cards > ul > li {
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-radius: 0;
+  color: #f0f3fa;
+}
+
+body:has(.landing-hero) .grid.cards > ul > li > p strong {
+  color: #fff;
+}
+
+/* Hero：全宽开放，无框；动效画布即背景 */
+.landing-hero {
+  align-items: center;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  margin: 0 0 2.5rem;
+  max-width: none;
+  min-height: min(32rem, 85vh);
+  overflow: visible;
+  padding: clamp(1.5rem, 5vw, 4rem) 0;
+  position: relative;
+  width: 100%;
+}
+
+.landing-hero__content {
+  align-self: center;
+  grid-column: 1;
+  grid-row: 1;
+  margin-inline: auto;
+  max-width: min(52rem, 100%);
+  position: relative;
+  width: 100%;
+}
+
+.landing-hero h1 {
+  color: #fff;
+  font-size: clamp(1.95rem, 4.8vw, 4.35rem);
+  font-weight: 800;
+  hyphens: manual;
+  letter-spacing: -0.04em;
+  line-height: 1.12;
+  margin-bottom: 1rem;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+  word-break: keep-all;
+}
+
+.landing-hero h1 .headerlink {
+  margin-inline-start: 0.35rem;
+  opacity: 0.4;
+  vertical-align: 0.08em;
+  white-space: nowrap;
+}
+
+.landing-hero p {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-inline: auto;
+  max-width: 42rem;
+}
+
+.landing-hero p em {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.landing-hero .md-button {
+  margin: 0.5rem 0.25rem;
+}
+
+.landing-hero .md-button--primary {
+  background-color: rgba(255, 255, 255, 0.18);
+  border: none;
+  color: #fff;
+}
+
+.landing-hero .md-button:not(.md-button--primary) {
+  background-color: transparent;
+  border: none;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+  color: #fff;
+}
+
+@media (min-width: 768px) {
+  .landing-hero {
+    text-align: center;
+  }
+
+  .landing-hero .md-button {
+    margin: 0.5rem 0.35rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .landing-hero {
+    min-height: 0;
+    text-align: center;
+  }
+
+  .landing-hero p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* 全站：不展示 GitHub 仓库入口、深浅色切换（配色固定为 mkdocs.yml palette） */
+.md-header__source,
+.md-nav__source {
+  display: none !important;
+}
+
+form[data-md-component="palette"].md-header__option {
+  display: none !important;
+}
+
+/*
+ * 全站：顶栏单行 — logo / 标题 / 标签（紧跟标题、flex 占满中间）/ 搜索（最右）。
+ * DOM 顺序由 overrides/partials/header.html 保证（tabs 在搜索前）；此处只负责 flex 与覆盖主题断点。
+ * 依赖 navigation.tabs + navigation.tabs.sticky。
+ */
+@media screen and (min-width: 48em) {
+  nav.md-header__inner.md-grid {
+    align-items: center;
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.25rem;
+    min-height: 2.35rem;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-block: 0.2rem;
+    padding-inline: 0.35rem;
+  }
+
+  /* 主题在视口小于约 76em 时隐藏 logo / tabs；顶栏单行需要保留 */
+  nav.md-header__inner > a[data-md-component="logo"],
+  nav.md-header__inner > a.md-header__button.md-logo {
+    align-items: center;
+    align-self: center;
+    display: inline-flex !important;
+    flex-shrink: 0;
+    justify-content: center;
+    min-height: 2.25rem;
+  }
+
+  /* 宽屏：抽屉与侧栏重复，隐藏以免插在 logo 与标题之间 */
+  nav.md-header__inner > .md-header__button[for="__drawer"] {
+    display: none;
+  }
+
+  /* 主题默认 flex-grow:1，会把标签与标题拉开 */
+  nav.md-header__inner > .md-header__title {
+    align-items: center;
+    align-self: center;
+    display: flex;
+    flex-basis: auto !important;
+    flex-grow: 0 !important;
+    flex-shrink: 0;
+    margin: 0;
+    max-width: min(18rem, 36vw);
+    min-height: 2.25rem;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  nav.md-header__inner .md-header__ellipsis {
+    align-items: center;
+    display: flex;
+    max-width: 100%;
+    min-height: 2.25rem;
+    overflow: hidden;
+  }
+
+  nav.md-header__inner nav.md-tabs {
+    align-items: center;
+    align-self: center;
+    display: flex !important;
+    flex: 1 1 auto;
+    margin: 0;
+    max-width: none;
+    min-height: 2.25rem;
+    min-width: 0;
+    padding: 0;
+    width: auto;
+  }
+
+  nav.md-header__inner nav.md-tabs > .md-grid {
+    display: flex;
+    flex: 1 1 auto;
+    margin: 0;
+    max-width: none;
+    min-width: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  nav.md-header__inner nav.md-tabs > .md-grid > .md-tabs__list {
+    align-items: center;
+    display: flex;
+    flex: 0 1 auto;
+    flex-wrap: nowrap;
+    gap: 0;
+    margin: 0;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0;
+    scrollbar-width: thin;
+  }
+
+  nav.md-header__inner nav.md-tabs > .md-grid > .md-tabs__list > li.md-tabs__item {
+    align-items: center;
+    align-self: center;
+    display: flex;
+    flex-shrink: 0;
+    list-style: none;
+    margin: 0;
+    min-height: 2.25rem;
+    padding: 0;
+  }
+
+  nav.md-header__inner nav.md-tabs > .md-grid > .md-tabs__list > li.md-tabs__item .md-tabs__link {
+    align-items: center;
+    display: inline-flex;
+    height: 100%;
+    margin: 0;
+    padding: 0.35rem 0.5rem;
+    white-space: nowrap;
+  }
+
+  nav.md-header__inner > label[for="__search"] {
+    align-items: center;
+    align-self: center;
+    display: inline-flex;
+    flex-shrink: 0;
+    margin-left: auto;
+    min-height: 2.25rem;
+  }
+
+  nav.md-header__inner > .md-search {
+    align-items: center;
+    align-self: center;
+    display: flex;
+    flex-shrink: 0;
+    min-height: 2.25rem;
+  }
+
+  .md-header--lifted ~ .md-container .md-sidebar {
+    top: 2.9rem;
+  }
+}

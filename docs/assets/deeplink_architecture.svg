@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 900" role="img" aria-labelledby="title desc">
+  <title id="title">DeepLink Next 下一代算力施工图与路线图</title>
+  <desc id="desc">以原始架构图为基础，叠加二维演变逻辑：横向展示从纯软件到软硬一体融合，纵向展示从底层能力到智能体系统再到 Agent Infra。</desc>
+  <defs>
+    <marker id="arrowRight" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 1 1 L 9 5 L 1 9 Z" fill="#64748b"/>
+    </marker>
+    <marker id="arrowUp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 1 1 L 9 5 L 1 9 Z" fill="#64748b"/>
+    </marker>
+    <marker id="arrowPurple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 1 1 L 9 5 L 1 9 Z" fill="#6d28d9"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="5" refY="2" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 1 1 L 9 5 L 1 9 Z" fill="#16a34a"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .surface { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.35; }
+      .surfaceStrong { fill: #ffffff; stroke: #7c3aed; stroke-width: 1.8; }
+      .modelBand { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.2; stroke-dasharray: 4 3; }
+      .modelCard { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1; }
+      .train { fill: #f5f3ff; stroke: #7c3aed; stroke-width: 1.5; }
+      .infer { fill: #eef2ff; stroke: #4f46e5; stroke-width: 1.5; }
+      .agent { fill: #ecfdf5; stroke: #059669; stroke-width: 1.5; }
+      .hardware { fill: #fff7ed; stroke: #ea580c; stroke-width: 1.5; }
+      .base { fill: #f1f5f9; stroke: #94a3b8; stroke-width: 1.2; }
+      .fusion { fill: #faf5ff; stroke: #7c3aed; stroke-width: 1.6; }
+      .goal { fill: #fffbeb; stroke: #d97706; stroke-width: 2; }
+      .batch { fill: #fff1f2; stroke: #e11d48; stroke-width: 1.4; }
+      .title { font: 700 30px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #111827; }
+      .subtitle { font: 400 14px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .section { font: 700 17px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #5b21b6; }
+      .goalText { font: 700 17px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #92400e; }
+      .label { font: 700 13px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #111827; }
+      .body { font: 400 12px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .small { font: 400 11px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #64748b; }
+      .tiny { font: 400 10px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #64748b; }
+      .axisLabel { font: 700 12px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #334155; }
+      .axis { stroke: #64748b; stroke-width: 1.6; fill: none; marker-end: url(#arrowRight); }
+      .axisUp { stroke: #64748b; stroke-width: 1.6; fill: none; marker-end: url(#arrowUp); }
+      .flow { stroke: #6d28d9; stroke-width: 2.2; fill: none; marker-end: url(#arrowPurple); }
+      .agentFlow { stroke: #16a34a; stroke-width: 2; fill: none; marker-end: url(#arrowGreen); stroke-dasharray: 6 4; }
+      .softLine { stroke: #cbd5e1; stroke-width: 1.1; fill: none; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1280" height="900"/>
+
+  <g transform="translate(64, 44)">
+    <text class="title" x="576" y="0" text-anchor="middle">DeepLink Next 下一代算力施工图与路线图</text>
+    <text class="subtitle" x="576" y="28" text-anchor="middle">在原有模型、智能体系统、运行时与算力架构图上，叠加“横向软硬融合、纵向 Agent Infra 上升”的二维演变逻辑</text>
+  </g>
+
+  <!-- Model layer -->
+  <g transform="translate(70, 104)">
+    <rect class="modelBand" width="690" height="92" rx="14"/>
+    <text class="small" x="345" y="24" text-anchor="middle">AI 大模型谱系</text>
+    <g transform="translate(16, 36)">
+      <rect class="modelCard" width="204" height="40" rx="10"/>
+      <text class="label" x="102" y="17" text-anchor="middle">语言模型</text>
+      <text class="tiny" x="102" y="32" text-anchor="middle">GLM · Qwen · Kimi · Llama</text>
+    </g>
+    <g transform="translate(243, 36)">
+      <rect class="modelCard" width="204" height="40" rx="10"/>
+      <text class="label" x="102" y="17" text-anchor="middle">多模态模型</text>
+      <text class="tiny" x="102" y="32" text-anchor="middle">Qwen3-VL · EMU · ERNIE</text>
+    </g>
+    <g transform="translate(470, 36)">
+      <rect class="modelCard" width="204" height="40" rx="10"/>
+      <text class="label" x="102" y="17" text-anchor="middle">具身智能模型</text>
+      <text class="tiny" x="102" y="32" text-anchor="middle">GROOT · RoboBrain · PaLM-E</text>
+    </g>
+
+    <path class="softLine" d="M 702 46 L 724 46"/>
+    <g transform="translate(724, 0)">
+      <rect class="surface" width="200" height="92" rx="14"/>
+      <text class="section" x="100" y="30" text-anchor="middle">下一代模型</text>
+      <text class="section" x="100" y="52" text-anchor="middle">架构与演进</text>
+      <text class="tiny" x="100" y="72" text-anchor="middle">通向科学智能的模型路径</text>
+    </g>
+
+    <path class="softLine" d="M 936 46 L 975 46"/>
+    <g transform="translate(975, 0)">
+      <rect class="goal" width="190" height="92" rx="14"/>
+      <text class="goalText" x="95" y="30" text-anchor="middle">通用科学智能</text>
+      <text class="small" x="95" y="52" text-anchor="middle">战略牵引目标</text>
+      <text class="tiny" x="95" y="70" text-anchor="middle">以 AI 模型演进为入口</text>
+    </g>
+  </g>
+
+  <!-- Agentic science systems -->
+  <g transform="translate(70, 226)">
+    <text class="tiny" x="582.5" y="-12" text-anchor="middle" fill="#6d28d9">主线：模型能力 → 智能体系统 → 运行时底座 → 算力架构</text>
+
+    <rect class="surface" width="365" height="154" rx="14"/>
+    <text class="section" x="182.5" y="27" text-anchor="middle">智能体持续学习系统</text>
+    <text class="body" x="182.5" y="50" text-anchor="middle">反馈、训练与自我改进闭环</text>
+    <g transform="translate(24, 72)">
+      <rect class="train" width="142" height="34" rx="9"/>
+      <text class="label" x="71" y="22" text-anchor="middle">强化学习框架</text>
+    </g>
+    <g transform="translate(198, 72)">
+      <rect class="train" width="142" height="34" rx="9"/>
+      <text class="label" x="71" y="22" text-anchor="middle">Agent 训练框架</text>
+    </g>
+    <g transform="translate(24, 116)">
+      <rect class="train" width="316" height="26" rx="8"/>
+      <text class="label" x="158" y="18" text-anchor="middle">预训练：AllSparking</text>
+    </g>
+
+    <rect class="surface" x="400" width="365" height="154" rx="14"/>
+    <text class="section" x="582.5" y="27" text-anchor="middle">智能体池化执行系统</text>
+    <text class="body" x="582.5" y="50" text-anchor="middle">池化、调度与长期执行</text>
+    <g transform="translate(424, 72)">
+      <rect class="infer" width="142" height="34" rx="9"/>
+      <text class="label" x="71" y="22" text-anchor="middle">在线执行池</text>
+    </g>
+    <g transform="translate(598, 72)">
+      <rect class="batch" width="142" height="34" rx="9"/>
+      <text class="label" x="71" y="22" text-anchor="middle">批式执行池</text>
+    </g>
+    <g transform="translate(424, 116)">
+      <rect class="infer" width="316" height="26" rx="8"/>
+      <text class="label" x="158" y="18" text-anchor="middle">统一执行引擎</text>
+    </g>
+
+    <rect class="surface" x="800" width="365" height="154" rx="14"/>
+    <text class="section" x="982.5" y="27" text-anchor="middle">科学智能编程框架</text>
+    <text class="body" x="982.5" y="50" text-anchor="middle">科学知识、自动编程与异构编译</text>
+    <g transform="translate(824, 72)">
+      <rect class="train" width="142" height="34" rx="9"/>
+      <text class="label" x="71" y="22" text-anchor="middle">科学算子/仿真库</text>
+    </g>
+    <g transform="translate(998, 72)">
+      <rect class="infer" width="142" height="34" rx="9"/>
+      <text class="label" x="71" y="22" text-anchor="middle">Agent 自动编程</text>
+    </g>
+    <g transform="translate(824, 116)">
+      <rect class="base" width="152" height="26" rx="8"/>
+      <text class="label" x="76" y="18" text-anchor="middle">拓扑感知通信</text>
+      <rect class="base" x="164" width="152" height="26" rx="8"/>
+      <text class="label" x="240" y="18" text-anchor="middle">Tile 统一 DSL</text>
+    </g>
+  </g>
+
+  <!-- Agent runtime foundation -->
+  <g transform="translate(70, 420)">
+    <rect class="agent" width="1165" height="118" rx="16"/>
+    <text class="section" x="582.5" y="26" text-anchor="middle">智能体运行时底座</text>
+    <text class="body" x="582.5" y="47" text-anchor="middle">长期运行 · 状态管理 · 环境探索 · 安全执行</text>
+
+    <g transform="translate(58, 70)">
+      <rect class="infer" width="240" height="32" rx="10"/>
+      <text class="label" x="120" y="21" text-anchor="middle">分布式振荡 Pulsing</text>
+    </g>
+    <g transform="translate(338, 70)">
+      <rect class="infer" width="240" height="32" rx="10"/>
+      <text class="label" x="120" y="21" text-anchor="middle">分层存储 Persisting</text>
+    </g>
+    <g transform="translate(618, 70)">
+      <rect class="infer" width="240" height="32" rx="10"/>
+      <text class="label" x="120" y="21" text-anchor="middle">分布式调试 Probing</text>
+    </g>
+    <g transform="translate(898, 70)">
+      <rect class="train" width="240" height="32" rx="10"/>
+      <text class="label" x="120" y="21" text-anchor="middle">分布式沙箱系统</text>
+    </g>
+  </g>
+
+  <!-- Hardware evolution layer -->
+  <g transform="translate(70, 570)">
+    <rect class="surfaceStrong" width="1165" height="180" rx="16"/>
+    <text class="section" x="582.5" y="28" text-anchor="middle">算力架构演进：从跨域互联到同集群合建</text>
+
+    <g transform="translate(34, 54)">
+      <rect class="infer" width="340" height="54" rx="12"/>
+      <text class="label" x="170" y="22" text-anchor="middle">跨域智算 · 纯软件</text>
+      <text class="small" x="170" y="40" text-anchor="middle">软件版 Scale Across · 跨域异构先可用</text>
+    </g>
+    <g transform="translate(412, 54)">
+      <rect class="hardware" width="340" height="54" rx="12"/>
+      <text class="label" x="170" y="22" text-anchor="middle">跨域超智互联 · 软硬协同</text>
+      <text class="small" x="170" y="40" text-anchor="middle">跨域硬件解决互联 · 尚未解决合建</text>
+    </g>
+    <g transform="translate(790, 54)">
+      <rect class="fusion" width="340" height="54" rx="12"/>
+      <text class="label" x="170" y="22" text-anchor="middle">DeepLink 新形态 · 同集群合建</text>
+      <text class="small" x="170" y="40" text-anchor="middle">融合芯片 + 可重构组网 · 科学计算成为 AI 负载</text>
+    </g>
+
+    <path class="flow" d="M 374 81 L 404 81"/>
+    <path class="flow" d="M 752 81 L 782 81"/>
+
+    <g transform="translate(34, 128)">
+      <rect class="infer" width="1096" height="32" rx="9"/>
+      <text class="label" x="548" y="21" text-anchor="middle">负载建模与仿真：Blueprinting</text>
+    </g>
+  </g>
+
+  <!-- Evolution axes drawn last for readability -->
+  <g transform="translate(72, 86)">
+    <path class="axis" d="M 54 720 L 1138 720"/>
+    <text class="axisLabel" x="596" y="752" text-anchor="middle">硬件演进：纯软件跨域 → 软硬协同 → 同集群合建</text>
+    <text class="small" x="182" y="703" text-anchor="middle">软件先行</text>
+    <text class="small" x="596" y="703" text-anchor="middle">软硬结合</text>
+    <text class="small" x="1010" y="703" text-anchor="middle">体系融合</text>
+
+    <path class="axisUp" d="M -24 720 L -24 110"/>
+    <text class="axisLabel" x="-46" y="410" text-anchor="middle" transform="rotate(-90 -46 410)">软件能力演进：国产异构 → 超大规模训推 → 智能体 Infra</text>
+  </g>
+</svg>
