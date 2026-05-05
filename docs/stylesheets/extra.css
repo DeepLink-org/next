@@ -293,10 +293,7 @@ body:has(.landing-hero) .grid.cards > ul > li > p strong {
 }
 
 .landing-hero h1 .headerlink {
-  margin-inline-start: 0.35rem;
-  opacity: 0.4;
-  vertical-align: 0.08em;
-  white-space: nowrap;
+  display: none;
 }
 
 .landing-hero p {

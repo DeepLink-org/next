@@ -122,21 +122,21 @@ markdown_extensions:
   - pymdownx.tilde
 
 nav:
-  - Home: index.md
-  - Vision:
-      - overview/index.md
-      - Vision & Goals: overview/vision.md
-      - Roadmap: overview/roadmap.md
-  - Architecture:
+  - 首页: index.md
+  - 愿景与路线:
+      - 整体路线图: overview/index.md
+      - 愿景与目标: overview/vision.md
+      - 路线图: overview/roadmap.md
+  - 架构:
       - architecture/index.md
-      - Core Components: architecture/components.md
-  - Concepts:
+      - 核心组件: architecture/components.md
+  - 概念:
       - concepts/index.md
-      - Compute Fabric: concepts/compute-fabric.md
-  - Getting Started:
+      - 计算织网: concepts/compute-fabric.md
+  - 快速开始:
       - getting-started/index.md
-      - Installation: getting-started/installation.md
-  - Community:
+      - 安装部署: getting-started/installation.md
+  - 社区:
       - community/index.md
-      - Contributing: community/contributing.md
-  - Blog: blog/index.md
+      - 参与贡献: community/contributing.md
+  - 博客: blog/index.md

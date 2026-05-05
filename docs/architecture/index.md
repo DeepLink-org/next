@@ -8,7 +8,7 @@ DeepLink Next 的架构面向通用科学智能展开，形成一张下一代算
 
 ## 总体架构图
 
-![DeepLink Next 下一代算力施工图与路线图](../assets/deeplink_architecture.svg)
+![DeepLink Next 下一代算力施工图与路线图](../assets/deeplink_architecture-transparent.svg)
 
 ## 读图方式
 

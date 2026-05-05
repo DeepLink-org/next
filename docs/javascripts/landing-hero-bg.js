@@ -175,13 +175,28 @@
 
     var prevCanvasW = 0;
     var prevCanvasH = 0;
-    /** 旋转后相空间的包围盒，用于映射到像素 */
+    /** 用于 toScreen 的包围盒（指数平滑后，减轻 scale 跳变） */
     var bbMinX = 0;
     var bbMaxX = 1;
     var bbMinY = 0;
     var bbMaxY = 1;
+    /** 本帧采样得到的原始包围盒，作为平滑目标 */
+    var bbRawMinX = 0;
+    var bbRawMaxX = 1;
+    var bbRawMinY = 0;
+    var bbRawMaxY = 1;
+    /** 每次 refresh 得到的投影中心目标；viewCx/viewCy 指数移向此处，避免中心瞬跳 */
+    var rawCx = 0;
+    var rawCy = 0;
+    var viewCx = 0;
+    var viewCy = 0;
+    var bbSmoothInited = false;
+    /** 包围盒边：越大越跟手、越小越稳（ms） */
+    var bboxSmoothTauMs = 520;
+    /** 中心单独略慢一档，移动感更明显、更稳 */
+    var centerSmoothTauMs = 780;
 
-    function refreshBbox() {
+    function refreshBboxRaw() {
       var minX = Infinity;
       var maxX = -Infinity;
       var minY = Infinity;
@@ -200,11 +215,39 @@
           if (pr.ys > maxY) maxY = pr.ys;
         }
       }
-      var pad = 0.035 * Math.max(maxX - minX, maxY - minY, 1e-6);
-      bbMinX = minX - pad;
-      bbMaxX = maxX + pad;
-      bbMinY = minY - pad;
-      bbMaxY = maxY + pad;
+      var pad = 0.055 * Math.max(maxX - minX, maxY - minY, 1e-6);
+      bbRawMinX = minX - pad;
+      bbRawMaxX = maxX + pad;
+      bbRawMinY = minY - pad;
+      bbRawMaxY = maxY + pad;
+      rawCx = (bbRawMinX + bbRawMaxX) * 0.5;
+      rawCy = (bbRawMinY + bbRawMaxY) * 0.5;
+    }
+
+    function snapBboxToRaw() {
+      bbMinX = bbRawMinX;
+      bbMaxX = bbRawMaxX;
+      bbMinY = bbRawMinY;
+      bbMaxY = bbRawMaxY;
+      viewCx = rawCx;
+      viewCy = rawCy;
+      bbSmoothInited = true;
+    }
+
+    function smoothBboxStep(dtMs) {
+      if (!bbSmoothInited) {
+        snapBboxToRaw();
+        return;
+      }
+      var dt = Math.min(120, Math.max(0, dtMs));
+      var a = 1 - Math.exp(-dt / bboxSmoothTauMs);
+      bbMinX += (bbRawMinX - bbMinX) * a;
+      bbMaxX += (bbRawMaxX - bbMaxX) * a;
+      bbMinY += (bbRawMinY - bbMinY) * a;
+      bbMaxY += (bbRawMaxY - bbMaxY) * a;
+      var aC = 1 - Math.exp(-dt / centerSmoothTauMs);
+      viewCx += (rawCx - viewCx) * aC;
+      viewCy += (rawCy - viewCy) * aC;
     }
 
     /**
@@ -216,8 +259,8 @@
       var spanY = Math.max(bbMaxY - bbMinY, 1e-6);
       var fill = 1.02;
       var scale = Math.max((w * fill) / spanX, (h * fill) / spanY);
-      var mx = (bbMinX + bbMaxX) * 0.5;
-      var my = (bbMinY + bbMaxY) * 0.5;
+      var mx = viewCx;
+      var my = viewCy;
       return {
         x: w * 0.5 + (xs - mx) * scale,
         y: h * 0.5 + (ys - my) * scale,
@@ -238,16 +281,22 @@
       prevCanvasH = nh;
       canvas.width = nw;
       canvas.height = nh;
-      refreshBbox();
+      refreshBboxRaw();
+      snapBboxToRaw();
     }
 
     var frameCount = 0;
     var viewStartMs = performance.now();
+    var lastDrawMs = performance.now();
 
     /** 折线取样步长：>1 可明显降低「中间实心亮带」的线段密度（render.js WebGL 是连续三角带，Canvas 叠 lighter 易过曝） */
     var drawStride = 2;
 
     function drawFrame() {
+      var nowFrame = performance.now();
+      var dtBb = Math.min(120, Math.max(0, nowFrame - lastDrawMs));
+      lastDrawMs = nowFrame;
+
       var w = canvas.width;
       var h = canvas.height;
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -259,7 +308,7 @@
       var pt;
 
       if (!prefersReducedMotion()) {
-        updateViewAnglesContinuous((performance.now() - viewStartMs) * 0.001);
+        updateViewAnglesContinuous((nowFrame - viewStartMs) * 0.001);
       }
 
       for (k = 0; k < splines.length; k++) {
@@ -268,8 +317,9 @@
 
       frameCount++;
       if ((frameCount & 15) === 0) {
-        refreshBbox();
+        refreshBboxRaw();
       }
+      smoothBboxStep(dtBb);
 
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.fillStyle = "#0a1528";
@@ -371,7 +421,8 @@
         return;
       }
       if (aborted) return;
-      refreshBbox();
+      refreshBboxRaw();
+      snapBboxToRaw();
       if (prefersReducedMotion()) {
         drawFrame();
       } else {

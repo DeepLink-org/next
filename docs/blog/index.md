@@ -2,7 +2,7 @@
 icon: material/post-outline
 ---
 
-# Blog
+# 博客
 
 ## 2026
 

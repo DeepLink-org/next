@@ -1,51 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 900" role="img" aria-labelledby="title desc">
   <title id="title">DeepLink Next下一代算力基础设施</title>
-  <desc id="desc">DeepLink Next 下一代算力基础设施架构示意。</desc>
+  <desc id="desc">DeepLink Next 下一代算力基础设施架构示意（透明背景，站点深空蓝主题配色）。</desc>
   <defs>
     <marker id="arrowRight" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
-      <path d="M 1 1 L 9 5 L 1 9 Z" fill="#64748b"/>
+      <path d="M 1 1 L 9 5 L 1 9 Z" fill="#8ba3c4"/>
     </marker>
     <marker id="arrowUp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
-      <path d="M 1 1 L 9 5 L 1 9 Z" fill="#64748b"/>
+      <path d="M 1 1 L 9 5 L 1 9 Z" fill="#8ba3c4"/>
     </marker>
     <marker id="arrowPurple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
-      <path d="M 1 1 L 9 5 L 1 9 Z" fill="#6d28d9"/>
+      <path d="M 1 1 L 9 5 L 1 9 Z" fill="#a5b4fc"/>
     </marker>
     <marker id="arrowGreen" viewBox="0 0 10 10" refX="5" refY="2" markerWidth="8" markerHeight="8" orient="auto">
-      <path d="M 1 1 L 9 5 L 1 9 Z" fill="#16a34a"/>
+      <path d="M 1 1 L 9 5 L 1 9 Z" fill="#6ee7b7"/>
     </marker>
     <style>
-      .bg { fill: #f8fafc; }
-      .surface { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.35; }
-      .surfaceStrong { fill: #ffffff; stroke: #7c3aed; stroke-width: 1.8; }
-      .modelBand { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.2; stroke-dasharray: 4 3; }
-      .modelCard { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1; }
-      .train { fill: #f5f3ff; stroke: #7c3aed; stroke-width: 1.5; }
-      .infer { fill: #eef2ff; stroke: #4f46e5; stroke-width: 1.5; }
-      .agent { fill: #ecfdf5; stroke: #059669; stroke-width: 1.5; }
-      .hardware { fill: #fff7ed; stroke: #ea580c; stroke-width: 1.5; }
-      .base { fill: #f1f5f9; stroke: #94a3b8; stroke-width: 1.2; }
-      .fusion { fill: #faf5ff; stroke: #7c3aed; stroke-width: 1.6; }
-      .goal { fill: #fffbeb; stroke: #d97706; stroke-width: 2; }
-      .batch { fill: #fff1f2; stroke: #e11d48; stroke-width: 1.4; }
-      .title { font: 700 30px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #111827; }
-      .section { font: 700 17px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #5b21b6; }
-      .goalText { font: 700 17px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #92400e; }
-      .label { font: 700 13px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #111827; }
-      .body { font: 400 12px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #475569; }
-      .small { font: 400 11px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #64748b; }
-      .tiny { font: 400 10px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #64748b; }
-      .axisLabel { font: 700 12px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #334155; }
-      .axis { stroke: #64748b; stroke-width: 1.6; fill: none; marker-end: url(#arrowRight); }
-      .axisUp { stroke: #64748b; stroke-width: 1.6; fill: none; marker-end: url(#arrowUp); }
-      .flow { stroke: #6d28d9; stroke-width: 2.2; fill: none; marker-end: url(#arrowPurple); }
-      .agentFlow { stroke: #16a34a; stroke-width: 2; fill: none; marker-end: url(#arrowGreen); stroke-dasharray: 6 4; }
-      .softLine { stroke: #cbd5e1; stroke-width: 1.1; fill: none; }
+      /* 透明底；配色对齐站点深空蓝 + Material indigo / orange accent（见 docs/stylesheets/extra.css） */
+      .surface { fill: rgba(255,255,255,0.08); stroke: rgba(186,210,255,0.42); stroke-width: 1.35; }
+      .surfaceStrong { fill: rgba(99,102,241,0.14); stroke: #818cf8; stroke-width: 1.8; }
+      .modelBand { fill: rgba(30,85,144,0.28); stroke: rgba(147,197,253,0.45); stroke-width: 1.2; stroke-dasharray: 4 3; }
+      .modelCard { fill: rgba(255,255,255,0.05); stroke: rgba(148,163,184,0.5); stroke-width: 1; }
+      .train { fill: rgba(129,140,248,0.18); stroke: #a5b4fc; stroke-width: 1.5; }
+      .infer { fill: rgba(99,102,241,0.14); stroke: #818cf8; stroke-width: 1.5; }
+      .agent { fill: rgba(52,211,153,0.12); stroke: #6ee7b7; stroke-width: 1.5; }
+      .hardware { fill: rgba(251,146,60,0.14); stroke: #fb923c; stroke-width: 1.5; }
+      .base { fill: rgba(148,163,184,0.1); stroke: rgba(148,163,184,0.55); stroke-width: 1.2; }
+      .fusion { fill: rgba(167,139,250,0.16); stroke: #c4b5fd; stroke-width: 1.6; }
+      .goal { fill: rgba(251,146,60,0.16); stroke: #fdba74; stroke-width: 2; }
+      .batch { fill: rgba(244,114,182,0.14); stroke: #f9a8d4; stroke-width: 1.4; }
+      .title { font: 700 30px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #f7f8fc; }
+      .section { font: 700 17px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #c7d2fe; }
+      .goalText { font: 700 17px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #fde68a; }
+      .label { font: 700 13px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #eef2fa; }
+      .body { font: 400 12px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #c8d4ea; }
+      .small { font: 400 11px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #a8b8d8; }
+      .tiny { font: 400 10px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #94a3b8; }
+      .axisLabel { font: 700 12px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #e2e8f4; }
+      .axis { stroke: #8ba3c4; stroke-width: 1.6; fill: none; marker-end: url(#arrowRight); }
+      .axisUp { stroke: #8ba3c4; stroke-width: 1.6; fill: none; marker-end: url(#arrowUp); }
+      .flow { stroke: #a5b4fc; stroke-width: 2.2; fill: none; marker-end: url(#arrowPurple); }
+      .agentFlow { stroke: #6ee7b7; stroke-width: 2; fill: none; marker-end: url(#arrowGreen); stroke-dasharray: 6 4; }
+      .softLine { stroke: rgba(148,163,184,0.45); stroke-width: 1.1; fill: none; }
     </style>
   </defs>
-
-  <rect class="bg" width="1280" height="900"/>
 
   <g transform="translate(64, 44)">
     <text class="title" x="576" y="0" text-anchor="middle">DeepLink Next下一代算力基础设施</text>
@@ -90,7 +88,7 @@
 
   <!-- Agentic science systems -->
   <g transform="translate(70, 226)">
-    <text class="tiny" x="582.5" y="-12" text-anchor="middle" fill="#6d28d9">主线：模型能力 → 智能体系统 → 运行时底座 → 算力架构</text>
+    <text class="tiny" x="582.5" y="-12" text-anchor="middle" fill="#c7d2fe">主线：模型能力 → 智能体系统 → 运行时底座 → 算力架构</text>
 
     <rect class="surface" width="365" height="154" rx="14"/>
     <text class="section" x="182.5" y="27" text-anchor="middle">智能体持续学习系统</text>
