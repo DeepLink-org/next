@@ -40,7 +40,6 @@ theme:
     - content.tabs.link
     - content.tooltips
     - header.autohide
-    - navigation.footer
     - navigation.indexes
     - navigation.instant
     - navigation.instant.prefetch

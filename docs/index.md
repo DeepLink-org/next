@@ -25,15 +25,7 @@ AI for Science 正在成为科学发现的新范式。DeepLink Next 将超算与
 </div>
 </section>
 
-<p class="trust-strip" markdown>
-浦江实验室发起 &middot; 国家人工智能训练场（上海）落地 &middot; 联合 8 所高校及科研机构、16 家产业伙伴
-</p>
-
 ![DeepLink Next 整体架构示意图](assets/deeplink_architecture-transparent.svg)
-
----
-
-两条主线：软件驾驭算力，硬件造就算力。
 
 ---
 
