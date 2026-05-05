@@ -104,7 +104,7 @@
     </g>
     <g transform="translate(24, 116)">
       <rect class="train" width="316" height="26" rx="8"/>
-      <text class="label" x="158" y="18" text-anchor="middle">预训练：AllSparking</text>
+      <text class="label" x="158" y="18" text-anchor="middle">预训练：AllSpark</text>
     </g>
 
     <rect class="surface" x="400" width="365" height="154" rx="14"/>

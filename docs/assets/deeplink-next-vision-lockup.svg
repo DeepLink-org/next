@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 432 86" role="img" aria-labelledby="lockup-title">
+  <title id="lockup-title">Deeplink Next logo and equation lockup</title>
+  <defs>
+    <style>
+      .brand {
+        font: italic 700 32px Cambria, 'Cambria Math', 'STIX Two Text', Georgia, 'Noto Serif', serif;
+        fill: #e8eef7;
+      }
+      .brand-sub {
+        font: italic 500 13px Cambria, 'Cambria Math', 'STIX Two Text', Georgia, serif;
+        fill: #9ca3af;
+      }
+      .eq-main {
+        font: 600 26px 'Cambria Math', 'STIX Two Math', 'Noto Sans Math', 'DejaVu Sans', 'Segoe UI Symbol', serif;
+        fill: #b8c5d9;
+      }
+      .label-inline {
+        font: 500 15px -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      }
+      .eq-nabla {
+        font: 600 28px 'Cambria Math', 'STIX Two Math', 'Noto Sans Math', 'DejaVu Sans', serif;
+        fill: #d1dce8;
+      }
+      .eq-times {
+        font: 600 22px 'Cambria Math', 'STIX Two Math', 'Noto Sans Math', serif;
+        fill: #b8c5d9;
+      }
+      .eq-lambda {
+        font: 600 28px 'Cambria Math', 'STIX Two Math', 'Noto Sans Math', 'DejaVu Sans', serif;
+        fill: #fbbf24;
+      }
+      .mark-glyph {
+        font-family: 'Cambria Math', 'STIX Two Math', 'Noto Sans Math', 'DejaVu Sans', 'Segoe UI Symbol', 'Apple Symbols', Symbol, serif;
+        font-weight: 600;
+        text-rendering: geometricPrecision;
+      }
+    </style>
+  </defs>
+
+  <!-- DeepLink next = formula = mark on the far right. -->
+  <text class="brand" x="10" y="48" dominant-baseline="middle">DeepLink</text>
+  <text class="brand-sub" x="148" y="54" dominant-baseline="alphabetic">next</text>
+  <text class="eq-main" x="182" y="48" dominant-baseline="middle">=</text>
+  <text class="eq-nabla" x="200" y="49" dominant-baseline="middle">&#8711;</text>
+  <text class="label-inline" x="228" y="48" dominant-baseline="middle" fill="#94a3b8">&#31185;&#23398;</text>
+  <text class="eq-times" x="264" y="48" dominant-baseline="middle">&#215;</text>
+  <text class="eq-lambda" x="288" y="47" dominant-baseline="middle">&#955;</text>
+  <text class="label-inline" x="316" y="48" dominant-baseline="middle" fill="#fbbf24">&#35745;&#31639;</text>
+  <text class="eq-main" x="356" y="48" dominant-baseline="middle">=</text>
+
+  <g transform="translate(372, 12) scale(2.12)">
+    <g class="mark-glyph" transform="translate(12, 15.35)">
+      <text x="-3.35" y="1.05" text-anchor="middle" dominant-baseline="central" font-size="15.9" fill="#94a3b8">&#8711;</text>
+      <text x="3.45" y="-1.12" text-anchor="middle" dominant-baseline="central" font-size="16.35" fill="#fbbf24">&#955;</text>
+    </g>
+  </g>
+
+  <line x1="200" y1="68" x2="358" y2="68" stroke="#fbbf24" stroke-width="1" stroke-opacity="0.28"/>
+</svg>

@@ -24,7 +24,9 @@ theme:
   name: material
   custom_dir: overrides
   language: zh
+  favicon: assets/favicon.svg
   icon:
+    # 顶栏实际徽标见 overrides/partials/logo.html；此处仅占位
     logo: material/memory
   font:
     text: Inter
@@ -124,19 +126,25 @@ markdown_extensions:
 nav:
   - 首页: index.md
   - 愿景与路线:
-      - 整体路线图: overview/index.md
       - 愿景与目标: overview/vision.md
       - 路线图: overview/roadmap.md
-  - 架构:
-      - architecture/index.md
+  - 概念与架构:
+      - 总体架构: architecture/index.md
       - 核心组件: architecture/components.md
-  - 概念:
-      - concepts/index.md
-      - 计算织网: concepts/compute-fabric.md
-  - 快速开始:
-      - getting-started/index.md
-      - 安装部署: getting-started/installation.md
-  - 社区:
-      - community/index.md
+      - 核心概念: concepts/index.md
+      - 算力平面: concepts/compute-fabric.md
+  - 项目与社区:
+      - 子项目概览: subprojects/index.md
+      - 项目收录: subprojects/incubation.md
+      - 预训练 AllSpark: subprojects/allspark.md
+      - 强化学习 NexRL: subprojects/nexrl.md
+      - 推理框架 Energon: subprojects/energon.md
+      - 推理服务 Teletraan: subprojects/teletraan.md
+      - Pulsing: subprojects/pulsing.md
+      - Persisting: subprojects/persisting.md
+      - Probing: subprojects/probing.md
+      - SuperPod 白皮书: subprojects/superpod.md
+      - 社区: community/index.md
       - 参与贡献: community/contributing.md
-  - 博客: blog/index.md
+  - 新闻与博客: blog/index.md
+  - 关于我们: about/index.md

@@ -80,7 +80,7 @@
     <path class="softLine" d="M 936 46 L 975 46"/>
     <g transform="translate(975, 0)">
       <rect class="goal" width="190" height="92" rx="14"/>
-      <text class="goalText" x="95" y="30" text-anchor="middle">通用科学智能</text>
+      <text class="goalText" x="95" y="30" text-anchor="middle">AI for Science</text>
       <text class="small" x="95" y="52" text-anchor="middle">战略牵引目标</text>
       <text class="tiny" x="95" y="70" text-anchor="middle">以 AI 模型演进为入口</text>
     </g>
@@ -103,7 +103,7 @@
     </g>
     <g transform="translate(24, 116)">
       <rect class="train" width="316" height="26" rx="8"/>
-      <text class="label" x="158" y="18" text-anchor="middle">预训练：AllSparking</text>
+      <text class="label" x="158" y="18" text-anchor="middle">预训练：AllSpark</text>
     </g>
 
     <rect class="surface" x="400" width="365" height="154" rx="14"/>

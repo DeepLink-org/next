@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" overflow="visible" role="img" aria-labelledby="dl-title">
+  <title id="dl-title">Deeplink Next</title>
+  <g
+    transform="translate(12, 15.35)"
+    font-family='Cambria Math, STIX Two Math, &quot;Noto Sans Math&quot;, &quot;DejaVu Sans&quot;, &quot;Segoe UI Symbol&quot;, &quot;Apple Symbols&quot;, Symbol, serif'
+    font-weight="600"
+    text-rendering="geometricPrecision"
+  >
+    <text x="-3.35" y="1.05" text-anchor="middle" dominant-baseline="central" font-size="15.9" fill="#94a3b8">&#8711;</text>
+    <text x="3.45" y="-1.12" text-anchor="middle" dominant-baseline="central" font-size="16.35" fill="#fbbf24">&#955;</text>
+  </g>
+</svg>

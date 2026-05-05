@@ -73,4 +73,79 @@ with dl.scope(chips=["ascend", "cambricon", "kunlun"]):
 - **可重构链路** — 面向 Full Mesh 集合通信，高带宽、全对等
 - **动态切换** — 按当前工作负载类型（AI 推理 / HPC 解算）在两种模式间切换
 
-[:material-arrow-right: 深入了解核心概念](../concepts/index.md)
+## 智能体运行时组件
+
+智能体运行时底座由四个独立的开源子项目构成，分别解决分布式 Agent 系统的通信、存储、调试与安全执行问题。
+
+### Pulsing — 分布式 Actor 运行时
+
+[:material-github: deeplink-org/Pulsing](https://deeplink-org.github.io/Pulsing/)
+
+Pulsing 是面向分布式 AI 系统的 Actor 运行时，定位在 Ray 和裸 async 之间——提供恰好足够的分布式基础设施，无需外部协调服务的复杂度。
+
+- **零外部依赖** — 纯 Rust + Tokio 实现，无需 etcd / NATS / Consul，部署足迹极小
+- **SWIM 协议自动发现** — 节点自动相互发现并形成集群，支持 K8s Service IP 原生集成
+- **位置透明 ActorRef** — 本地和远程 Actor 使用同一套 API，从单节点到分布式部署无需修改应用代码
+- **流式消息原生支持** — 面向 LLM token 级流式生成和实时数据处理设计
+- **Python First** — 通过 PyO3 提供完整 Python API，`@remote` 装饰器将任意类转为分布式 Actor
+- **LLM 推理集成** — 内建 OpenAI 兼容 API Router，直接对接 vLLM / Transformers / MLX
+
+```python
+import pulsing as pul
+
+@pul.remote
+class Calculator:
+    def __init__(self, initial: int = 0):
+        self.value = initial
+
+    def add(self, n: int) -> int:
+        self.value += n
+        return self.value
+```
+
+### Persisting — 分层持久化存储
+
+[:material-github: deeplink-org/Persisting](https://deeplink-org.github.io/Persisting/)
+
+Persisting 是面向 AI 系统的持久化存储引擎，基于 Lance 列式格式提供高性能数据读写，与 Pulsing Actor 框架深度集成。
+
+- **Lance 列式存储** — 高性能随机访问、向量搜索、零拷贝版本管理
+- **可插拔后端** — Memory（测试）/ Lance（生产）/ 自定义实现，统一 `StorageBackend` 协议
+- **Pulsing 集成** — 为 Pulsing 分布式队列提供可靠持久化
+- **Schema 演进** — 无需停机即可动态调整数据结构
+- **Prometheus 指标** — 内建监控端点，实时观测存储健康
+
+```python
+from persisting import Queue
+
+queue = Queue("my_topic", storage_path="./data")
+await queue.put({"id": "1", "value": 42})
+await queue.flush()
+records = await queue.get(limit=100)
+```
+
+### Probing — 零侵入分布式调试器
+
+[:material-github: deeplink-org/Probing](https://deeplink-org.github.io/probing/)
+
+Probing 是面向分布式 AI 工作负载的动态性能分析器——无需修改代码、无需重启进程即可注入探针，用标准 SQL 查询性能数据。
+
+- **零侵入注入** — 运行时 attach 到目标进程，无需 instrumentation 或重启
+- **SQL 驱动分析** — 基于 Apache DataFusion，用标准 SQL 查询 PyTorch trace、显存分配等
+- **动态代码执行** — 在运行中的进程内执行 Python 代码，检查变量、修改状态
+- **栈捕获** — 实时获取任意时刻的执行栈及变量值
+- **分布式就绪** — 跨节点监控，支持分布式训练问题的跨节点关联分析
+- **<5% 性能开销** — 生产级效率，适合真实部署环境
+
+```bash
+pgrep -f "python.*train"
+probing -t <pid> inject
+probing -t <pid> query "SELECT * FROM python.torch_trace LIMIT 10"
+probing -t <pid> eval "print(torch.cuda.memory_allocated())"
+```
+
+### 分布式沙箱系统
+
+面向 Agent 安全执行与隔离的沙箱环境，为不可信代码提供受限执行边界。当前处于规划阶段，将在后续版本中作为运行时底座的第四个独立组件发布。
+
+[:material-arrow-right: 了解超节点技术体系白皮书](https://deeplink-org.github.io/superpod-whitepaper/)

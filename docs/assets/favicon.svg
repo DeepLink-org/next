@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#0b1220"/>
+  <g
+    transform="translate(16, 20.47)"
+    font-family='Cambria Math, STIX Two Math, &quot;Noto Sans Math&quot;, &quot;DejaVu Sans&quot;, &quot;Segoe UI Symbol&quot;, &quot;Apple Symbols&quot;, Symbol, serif'
+    font-weight="700"
+    text-rendering="geometricPrecision"
+  >
+    <text x="-4.47" y="1.4" text-anchor="middle" dominant-baseline="central" font-size="21.2" fill="#e8eef7">&#8711;</text>
+    <text x="4.6" y="-1.5" text-anchor="middle" dominant-baseline="central" font-size="21.8" fill="#fbbf24">&#955;</text>
+  </g>
+</svg>

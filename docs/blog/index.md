@@ -8,7 +8,7 @@ icon: material/post-outline
 
 ### DeepLink Next 技术白皮书发布 <small>— 2026-05-15</small>
 
-DeepLink Next 技术白皮书正式发布，系统阐述了从跨域混训到同集群合建的三阶段演进路径，以及超智融合芯片和可重构组网的技术架构。
+DeepLink Next 技术白皮书正式发布，系统阐述了从跨域混训到超融合的三阶段演进路径，以及超智融合芯片和可重构组网的技术架构。
 
 ### 无锡超算 HPC + AI for Science 研讨会 <small>— 2026-05-15</small>
 

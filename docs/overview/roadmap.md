@@ -8,7 +8,7 @@ icon: material/map-outline
 
 ### Q2 — 技术白皮书 + 软件栈开放
 
-- [x] DeepLink Next 技术白皮书发布
+- [x] [DeepLink Next 技术白皮书发布](https://deeplink-org.github.io/superpod-whitepaper/)（超节点技术体系白皮书 v1.0，联合 8 所高校及科研机构、16 家产业伙伴共同编著）
 - [x] 任务智能切片核心开源
 - [x] 长距通信库开源（拥塞控制算法）
 - [ ] 异构混训框架统一算子接口发布
@@ -37,7 +37,7 @@ icon: material/map-outline
 
 - [ ] 超智融合芯片首次流片
 - [ ] 可重构组网 FPGA 原型验证
-- [ ] 同集群合建 PoC 部署
+- [ ] 超融合 PoC 部署
 - [ ] 科学计算工作负载基准测试
 
 ### Q3–Q4 — 规模化试点
