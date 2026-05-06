@@ -1,8 +1,8 @@
 ---
-icon: material/puzzle-outline
+icon: material/code-braces
 ---
 
-# 核心组件
+# 软件系统
 
 ## 任务智能切片
 
@@ -20,18 +20,6 @@ icon: material/puzzle-outline
 
 跨智算与超算资源的统一调度。感知 HPC 与 AI 任务差异，全局优化分派，抢占式与预留式混合调度。
 
-## 跨域专用硬件（阶段二）
-
-超算-智算互联定制硬件：距离感知 IP 核、链路加速引擎、协议转换桥。
-
-## 超智融合芯片（阶段三）
-
-单片集成 AI Tensor Core 与 FP64 Unit。片上统一缓存，AI 与 HPC 共享 L2 Cache。
-
-## 可重构组网（阶段三）
-
-同一物理网络承载 Full Mesh 与 3D Torus。固定路径 + 可重构链路，按负载动态切换。
-
 ---
 
 ## 智能体运行时
@@ -44,4 +32,3 @@ icon: material/puzzle-outline
 | 分布式沙箱 | 安全执行与隔离环境 | 规划中 |
 
 [:material-arrow-right: 查看子项目概览及生态关系](../subprojects/index.md)
-[:material-arrow-right: 了解超节点技术体系白皮书](https://deeplink-org.github.io/superpod-whitepaper/)

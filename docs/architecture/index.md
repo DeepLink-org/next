@@ -10,8 +10,6 @@ icon: material/sitemap-outline
 
 ![DeepLink Next 下一代算力施工图与路线图](../assets/deeplink_architecture-transparent.svg)
 
-## 读图方式
-
 这张图有两条演进轴：
 
 - **软件能力演进**：国产异构 → 超大规模训推 → 智能体 Infra

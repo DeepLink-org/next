@@ -52,6 +52,7 @@ theme:
     - navigation.tracking
     - search.highlight
     - toc.follow
+    - toc.integrate
   palette:
     scheme: slate
     primary: indigo
@@ -129,9 +130,9 @@ nav:
       - 路线图: overview/roadmap.md
   - 概念与架构:
       - 总体架构: architecture/index.md
-      - 核心组件: architecture/components.md
       - 核心概念: concepts/index.md
-      - 算力平面: concepts/compute-fabric.md
+      - 算力体系: architecture/hardware.md
+      - 软件系统: architecture/software.md
   - 项目与社区:
       - 子项目概览: subprojects/index.md
       - 项目收录: subprojects/incubation.md
