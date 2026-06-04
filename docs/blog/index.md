@@ -6,22 +6,13 @@ icon: material/post-outline
 
 ## 2026
 
-### DeepLink Next 技术白皮书发布 <small>— 2026-05-15</small>
+### DeepLink Next 正式对外宣发 <small>— 2026-06</small>
 
-DeepLink Next 技术白皮书正式发布，系统阐述了从跨域混训到超融合的三阶段演进路径，以及超智融合芯片和可重构组网的技术架构。
+DeepLink Next 正式对外发布。作为面向 AI4S 的下一代开源算力基础设施，DeepLink Next 将围绕 **训推框架**、**智能体运行时**、**超智融合计算** 与 **下一代算力架构** 四个板块持续建设开放生态。
 
-### 无锡超算 HPC + AI for Science 研讨会 <small>— 2026-05-15</small>
+在硬件线中，`DeepLink.Across` 面向跨域互联能力建设，`DeepLink.Fabric` 面向下一代算力架构底座；在软件线中，Agent Runtime 负责将训推任务接入端到端调度、观测与管控。
 
-浦江实验室受邀参加无锡超算举办的 HPC + AI for Science 研讨会，介绍 DeepLink 万卡跨域混训实践，以及拓展至超算-智算融合的技术路线。
+本次宣发同步开放子项目矩阵、路线图与社区参与入口，欢迎开发者、科研团队和产业伙伴参与共建。
 
-### DeepLink 软件栈核心组件开源 <small>— 2026-04-01</small>
-
-任务智能切片、长距通信库和异构混训框架三大核心组件在 GitHub 上以 Apache 2.0 协议开源。
-
-### 国家人工智能训练场（上海）落地 DeepLink <small>— 2025-12-20</small>
-
-DeepLink 万卡跨域异构混训系统正式落地国家人工智能训练场（上海），成为国内首个全国产万卡级跨域混训平台。
-
-### DeepLink 在 Supercomputing 2025 发表 <small>— 2025-11-15</small>
-
-浦江实验室在 SC25 上首次公开 DeepLink 技术细节，MFU 达到英伟达同期主流方案的 80%，获得国际学术界关注。
+[:material-package-variant-closed: 查看开源子项目](../subprojects/index.md){ .md-button }
+[:material-account-group-outline: 参与社区共建](../community/index.md){ .md-button }

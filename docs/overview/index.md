@@ -14,7 +14,7 @@ DeepLink Next 的路线图由两条主线共同构成：一条是**软件能力�
 
 ### 1. 国产异构 <small>已落地</small>
 
-DeepLink 最早解决的是国产异构算力“能不能被同一任务有效使用”的问题。通过任务智能切片、长距通信库和异构混训框架，系统在通用 RoCE 网络上抹平跨域、跨芯片、跨中心差异。
+DeepLink 最早解决的是国产异构算力“能不能被同一任务有效使用”的问题。通过软件栈协同，系统抹平跨域、跨芯片、跨中心差异。
 
 关键能力：
 
@@ -39,9 +39,9 @@ Agent Infra 不是普通推理服务的延伸，而是面向长期任务执行�
 
 运行时底座：
 
-- [分布式振荡 Pulsing](https://deeplink-org.github.io/Pulsing/) — Actor 运行时，零依赖分布式集群
-- [分层存储 Persisting](https://deeplink-org.github.io/Persisting/) — Lance 列式存储，参数/KV Cache/Trajectories
-- [分布式调试 Probing](https://deeplink-org.github.io/probing/) — 零侵入 SQL 驱动性能分析
+- Pulsing — 分布式执行
+- Persisting — 状态存储与传输
+- Probing — 训推诊断与过程监控
 - 分布式沙箱系统
 
 ---
@@ -50,7 +50,7 @@ Agent Infra 不是普通推理服务的延伸，而是面向长期任务执行�
 
 ### 阶段一：跨域智算 · 纯软件路线 <small>当下 · 已落地</small>
 
-单数据中心受供电、面积与单一芯片生态约束，难以支撑下一代万亿参数训练。DeepLink 完全用软件在通用 RoCE 网络上抹平跨域差异。
+单数据中心受供电、面积与单一芯片生态约束，难以支撑下一代大规模训练。DeepLink 先通过软件方式抹平跨域差异。
 
 关键指标：
 
@@ -59,30 +59,27 @@ Agent Infra 不是普通推理服务的延伸，而是面向长期任务执行�
 - 有效训练时间 **95%+**
 - 已落地**国家人工智能训练场（上海）**
 
-> 这是 NVIDIA 2025 年命名 "Scale Across" 之前就跑通的 "软件版 Scale Across"。
+> 这一阶段的重点，是先让跨域异构算力在软件层面可用。
 
-### 阶段二：跨域超智互联 · 软硬协同 <small>1–2 年</small>
+### 阶段二：DeepLink.Across <small>1–2 年</small>
 
-DeepLink 在原软件栈上叠加自研跨域专用硬件，配合元调度器与统一数据湖，让 FP64 科学解算与 AI 训推任务跨域流转。
+DeepLink 在原软件栈上叠加 `DeepLink.Across` 跨域互联能力，让 FP64 科学解算与 AI 训推任务跨域流转。
 
 但这一阶段只解决了"互联"，尚未解决"超融合"：
 
 !!! warning "架构之困"
-    智算中心内部组网是 **Full Mesh**（全对等、面向集合通信），超算中心内部是 **3D Torus**（规整低维、面向邻近通信），两者从架构层面就难以在同一集群内高效共存。所以即使用 DeepLink 跨域硬件把它们连起来，超算与智算仍然只能 "各建各的、跨域互联"——解决了 "互联"，没解决 "超融合"。
+    即使用 `DeepLink.Across` 把它们跨域连起来，超算与智算仍然只能 "各建各的、跨域互联"——解决了 "互联"，没解决 "超融合"。
 
-### 阶段三：DeepLink 新形态 · 超融合 <small>2–3 年</small>
+### 阶段三：DeepLink.Fabric <small>2–3 年</small>
 
 真正的答案是**芯片与系统架构同时融合**。
 
 | 创新 | 说明 |
 |------|------|
-| **超智融合芯片** | 单片承载 AI Tensor Core + FP64 Unit |
-| **可重构组网** | 同一物理网络，固定路径承载 Torus 邻近通信，可重构链路承载 Mesh 集合通信 |
-| **按需切换** | 网络在 AI ⇄ HPC 之间按负载动态切换 |
+| **架构统一** | 面向超算与智算的统一算力底座 |
+| **软硬协同** | 让硬件能力、系统软件与上层运行时协同演进 |
+| **平台化演进** | 面向 AI4S 任务提供长期可演进的基础设施 |
 
 集群内部组网架构第一次统一，超算和智算可以在同一个物理集群内融合运行，**科学计算与 AI 在同一架构上统一运行**。
 
 ![DeepLink 超智融合演进路径](../assets/deeplink_evolution.svg)
-
-[:material-arrow-right: 探索架构施工图](../architecture/index.md)
-[:material-arrow-right: 了解愿景与设计原则](vision.md)

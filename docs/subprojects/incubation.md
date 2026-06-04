@@ -14,12 +14,10 @@ DeepLink Next 是一个开放的算力基础设施项目，欢迎与 AI4S 相关
 
 | 方向 | 说明 | 示例 |
 |------|------|------|
-| 分布式训练与推理 | 训练框架、推理引擎、模型服务化 | AllSpark / Energon / Teletraan |
-| 智能体与运行时 | Agent 框架、分布式通信、任务调度 | Pulsing / Persisting |
-| 科学计算与仿真 | 科学算子库、PDE 求解器、分子动力学 | — |
-| 算力调度与网络 | 跨域通信、拥塞控制、拓扑优化 | 长距通信库 |
-| 可观测性与调试 | 分布式 profiling、tracing、日志 | Probing |
-| 硬件与芯片工具链 | 芯片适配、算子编译、FPGA 工具 | — |
+| 训推框架 | 训练框架、推理引擎、模型服务化、后训练系统 | AllSpark / NexRL / Energon / Teletraan |
+| 智能体运行时 | Agent 框架、分布式通信、状态持久化、可观测性、安全沙箱 | Pulsing / Persisting / Probing / 分布式沙箱 |
+| 超智融合计算 | 科学算子库、PDE 求解器、分子动力学、科学数据压缩、混合精度、工作流 | 科学算子 / 数据压缩 / 混合精度 / 工作流 |
+| 下一代算力架构 | 跨域通信、拓扑优化、超节点参考设计、硬件与芯片工具链 | DeepLink.Across / DeepLink.Fabric / SuperPod 白皮书 |
 
 超出以上范围但与 AI4S 基础设施相关的项目，仍可提交申请，由技术委员会个案评估。
 
@@ -41,15 +39,7 @@ DeepLink Next 是一个开放的算力基础设施项目，欢迎与 AI4S 相关
 
 ## 收录权益
 
-| 权益 | 沙箱 | 孵化 | 毕业 |
-|------|:---:|:---:|:---:|
-| 本站子项目页展示 | ✅ | ✅ | ✅ |
-| 生态关系图收录 | ✅ | ✅ | ✅ |
-| GitHub 组织托管 | ✅ | ✅ | ✅ |
-| 技术委员会指导 | ✅ | ✅ | ✅ |
-| 发布会 / 白皮书联合露出 | — | ✅ | ✅ |
-| 算力资源支持 | — | 申请制 | 优先 |
-| DeepLink 认证徽章 | — | — | ✅ |
+收录项目将获得本站展示、社区讨论入口和技术委员会指导。进入孵化或毕业阶段的项目，可参与版本发布、白皮书协作和生态联合展示。
 
 ---
 
@@ -75,9 +65,9 @@ DeepLink Next 是一个开放的算力基础设施项目，欢迎与 AI4S 相关
 
 | 项目 | 方向 | 等级 | 状态 |
 |------|------|:---:|:---:|
-| Pulsing | 智能体运行时 | :material-tree-outline: 毕业 | 已上线 |
-| Persisting | 智能体运行时 | :material-sprout-outline: 孵化 | 已上线 |
-| Probing | 可观测性 | :material-sprout-outline: 孵化 | 已上线 |
+| [Pulsing](https://deeplink-org.github.io/Pulsing/) | 智能体运行时 | :material-tree-outline: 毕业 | 已上线 |
+| [Persisting](https://deeplink-org.github.io/Persisting/zh/) | 智能体运行时 | :material-sprout-outline: 孵化 | 已上线 |
+| [Probing](https://deeplink-org.github.io/probing/) | 可观测性 | :material-sprout-outline: 孵化 | 已上线 |
 | AllSpark | 分布式训练 | :material-seed-outline: 沙箱 | 规划中 |
 | NexRL | 分布式训练 | :material-seed-outline: 沙箱 | 规划中 |
 | Energon | 推理引擎 | :material-seed-outline: 沙箱 | 规划中 |
@@ -89,8 +79,4 @@ DeepLink Next 是一个开放的算力基础设施项目，欢迎与 AI4S 相关
 
 ## 技术委员会
 
-项目收录与孵化等级由 DeepLink Next 技术委员会负责评审。委员会由浦江实验室代表、核心维护者与社区选举成员共同组成。
-
-**当前成员**：浦江实验室 DeepLink 团队 + 已毕业项目 Maintainer 代表。
-
-*技术委员会章程与选举细则将在 2026 Q3 发布。*
+项目收录与孵化等级由 DeepLink Next 技术委员会负责评审。委员会章程与选举细则将在后续版本中发布。

@@ -175,7 +175,7 @@
     <g transform="translate(34, 54)">
       <rect class="infer" width="340" height="54" rx="12"/>
       <text class="label" x="170" y="22" text-anchor="middle">跨域智算 · 纯软件</text>
-      <text class="small" x="170" y="40" text-anchor="middle">软件版 Scale Across · 跨域异构先可用</text>
+      <text class="small" x="170" y="40" text-anchor="middle">软件跨域 · 异构算力先可用</text>
     </g>
     <g transform="translate(412, 54)">
       <rect class="hardware" width="340" height="54" rx="12"/>
@@ -185,7 +185,7 @@
     <g transform="translate(790, 54)">
       <rect class="fusion" width="340" height="54" rx="12"/>
       <text class="label" x="170" y="22" text-anchor="middle">DeepLink 新形态 · 同集群合建</text>
-      <text class="small" x="170" y="40" text-anchor="middle">融合芯片 + 可重构组网 · 科学计算成为 AI 负载</text>
+      <text class="small" x="170" y="40" text-anchor="middle">统一算力底座 · 科学计算成为 AI 负载</text>
     </g>
 
     <path class="flow" d="M 374 81 L 404 81"/>

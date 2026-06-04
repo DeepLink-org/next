@@ -7,11 +7,11 @@ hide:
 <section class="landing-hero" markdown>
 <div class="landing-hero__content" markdown>
 
-# AI4S 的算力基座
+# AI4S 的开放算力基座
 
 <div class="landing-hero__lede" markdown>
 
-AI for Science 正在成为科学发现的新范式。DeepLink Next 将超算与智算融合为一张可编程的算力平面——让蛋白质折叠、气象模拟、材料计算在同一架构上规模化运行。
+AI for Science 正在成为科学发现的新范式。DeepLink Next 以 `DeepLink.Across` 连接跨域算力，以 `DeepLink.Fabric` 构建下一代互联底座，并以 Agent Runtime 承接训推任务的调度、观测与管控。
 
 </div>
 
@@ -43,9 +43,9 @@ AI for Science 正在成为科学发现的新范式。DeepLink Next 将超算与
 <div class="evolution-card phase-2" markdown>
 ### :material-memory: 硬件线 — 造出算力
 
-**纯软件跨域 → 软硬协同 → 超融合**
+**纯软件跨域 → DeepLink.Across → DeepLink.Fabric**
 
-从让跨域异构算力先可用，到自研跨域硬件解决互联，最终走向融合芯片与可重构组网。每一步都在回答：算力从何而来。
+从让跨域异构算力先可用，到 DeepLink.Across 承接跨域互联，再到 DeepLink.Fabric 支撑下一代算力架构。每一步都在回答：算力从何而来。
 </div>
 </div>
 
@@ -63,7 +63,7 @@ AI for Science 正在成为科学发现的新范式。DeepLink Next 将超算与
 
 - :material-sitemap-outline:{ .lg .middle } __深入技术架构__
 
-    四层施工图、核心组件详解、算力平面的三个阶段。
+    四层施工图、核心组件详解、软硬协同演进路径。
 
     [:material-arrow-right: 了解我们怎么设计](architecture/index.md)
 

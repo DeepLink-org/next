@@ -10,67 +10,42 @@ icon: material/sitemap-outline
 
 ![DeepLink Next 下一代算力施工图与路线图](../assets/deeplink_architecture-transparent.svg)
 
-这张图有两条演进轴：
-
-- **软件能力演进**：国产异构 → 超大规模训推 → 智能体 Infra
-- **硬件演进**：纯软件跨域 → 软硬协同 → 超融合
-
-两条线共同服务于 AI for Science 这一战略目标。对产业读者而言，入口仍然是 AI 模型架构、训推系统和 Agent Infra；对政府与科研读者而言，终局是 AI4S 拥有统一的基础设施基座。
-
-## 目标层：AI for Science
-
-AI for Science 是战略牵引目标，但不是脱离产业落点的口号。DeepLink Next 将它拆解为三类工程入口：
-
-- 下一代模型架构与演进
-- 智能体系统与运行时
-- 软件能力和硬件体系的协同演进
-
-## 软件层：三类智能体系统
+## 总体分层
 
 <div class="grid cards" markdown>
 
-- :material-school-outline:{ .lg .middle } __智能体持续学习系统__
+- :material-flask-outline:{ .lg .middle } __AI4S 任务层__
 
-    将预训练、强化学习和 Agent 训练纳入同一持续反馈闭环，让模型能力能够在科学任务中持续改进。
+    面向科学发现、仿真推演、数据分析和智能编程等场景，定义 DeepLink Next 要服务的最终问题。
 
-- :material-server-network:{ .lg .middle } __智能体池化执行系统__
+- :material-brain:{ .lg .middle } __训推与智能体层__
 
-    把传统推理服务升级为可池化、可调度、可长期运行的 Agent 执行面，支持在线执行池与批式执行池。
+    承接预训练、后训练、推理服务和 Agent 应用，把模型能力组织成可持续运行的任务系统。
 
-- :material-code-braces:{ .lg .middle } __科学智能编程框架__
+- :material-server-network:{ .lg .middle } __Agent Runtime 层__
 
-    连接科学算子/仿真库、Agent 自动编程、拓扑感知通信和 Tile 统一 DSL，让科学计算知识进入可编程系统。
+    由 Pulsing、Persisting、Probing 与沙箱能力组成，提供执行、状态、观测和隔离能力。
+
+- :material-sitemap-outline:{ .lg .middle } __算力架构层__
+
+    由 DeepLink.Across、DeepLink.Fabric 和 SuperPod 生态共同支撑，为上层任务提供统一的基础设施基座。
 
 </div>
 
-## 运行时层：Agent Infra 底座
+## 两条主线
 
-智能体运行时是三类系统的共同底座。它承担的不是一次性推理，而是长期任务执行：
+<div class="grid cards" markdown>
 
-- **[Pulsing](https://deeplink-org.github.io/Pulsing/)**：分布式 Actor 运行时，面向智能体协作的振荡机制——零外部依赖、SWIM 协议自动发现、流式消息原生支持
-- **[Persisting](https://deeplink-org.github.io/Persisting/)**：分层存储引擎，基于 Lance 列式格式管理参数、KV Cache 与 Trajectories
-- **[Probing](https://deeplink-org.github.io/probing/)**：零侵入分布式调试器，SQL 驱动的性能分析与动态代码注入
-- **Sandboxing**：安全执行与隔离环境（规划中）
+- :material-layers-triple:{ .lg .middle } __软件主线：从框架到运行时__
 
-## 硬件层：从互联到超融合
+    训推框架负责模型训练、强化学习和推理服务；Agent Runtime 负责把这些能力组织成长期运行、可观测、可管控的任务。
 
-硬件演进沿着三个阶段展开：
+- :material-memory:{ .lg .middle } __硬件主线：从互联到架构__
 
-| 阶段 | 架构形态 | 核心判断 |
-|------|----------|----------|
-| 跨域智算 · 纯软件 | 软件版 Scale Across | 先让跨域异构算力可用 |
-| 跨域超智互联 · 软硬协同 | 跨域专用硬件 | 解决互联，但尚未解决超融合 |
-| DeepLink 新形态 · 超融合 | 融合芯片 + 可重构组网 | AI 与 HPC 在同一集群内原生融合 |
+    DeepLink.Across 面向跨域互联能力建设，DeepLink.Fabric 面向下一代算力架构底座。二者共同回答“算力如何被组织起来”。
 
-## 关键技术体系
+- :material-handshake-outline:{ .lg .middle } __协同主线：端到端闭环__
 
-| 方向 | 技术 | 作用 |
-|------|------|------|
-| 软件能力 | 任务智能切片 / 长距通信 / 异构混训 | 国产异构与跨域训练基础 |
-| 软件能力 | 智能体持续学习 / 池化执行 / 科学智能编程 | 从模型训推走向 Agent Infra |
-| 运行时 | [Pulsing](https://deeplink-org.github.io/Pulsing/) / [Persisting](https://deeplink-org.github.io/Persisting/) / [Probing](https://deeplink-org.github.io/probing/) / Sandboxing | 支撑长期运行的智能体基础设施 |
-| 硬件演进 | 跨域专用硬件 | 从纯软件跨域走向软硬协同 |
-| 硬件演进 | 融合芯片 / 可重构组网 | 从跨域互联走向超融合 |
-| 方法论 | 负载建模与仿真 Blueprinting | 让架构可以被设计、验证和迭代 |
+    训推框架、Agent Runtime 与内部平台协同，实现任务从提交、执行、状态管理到诊断观测的闭环。
 
-[:material-arrow-right: 了解核心组件](components.md)
+</div>

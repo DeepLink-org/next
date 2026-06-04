@@ -4,14 +4,8 @@ icon: material/database-outline
 
 # Persisting
 
-面向 AI 系统的分层持久化存储引擎。
+Persisting 提供参数、轨迹和中间状态的存储与传输能力。
 
-基于 Lance 列式格式，管理模型参数、KV Cache 与 Trajectories。可插拔后端架构，与 Pulsing 深度集成。
+它位于 Agent Runtime 的状态平面，让长期任务的执行过程可以被持续保存、检索和复用。
 
-- Lance 列式存储（随机访问 + 向量搜索）
-- 可插拔后端（Memory / Lance / 自定义）
-- Pulsing 分布式队列持久化
-- Schema 动态演进
-- Prometheus 指标
-
-[:material-github: 进入 Persisting 项目站点](https://deeplink-org.github.io/Persisting/){ .md-button }
+[:material-github: 进入 Persisting 项目站点](https://deeplink-org.github.io/Persisting/zh/){ .md-button }

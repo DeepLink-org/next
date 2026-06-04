@@ -136,14 +136,24 @@ nav:
   - 项目与社区:
       - 子项目概览: subprojects/index.md
       - 项目收录: subprojects/incubation.md
-      - 预训练 AllSpark: subprojects/allspark.md
-      - 强化学习 NexRL: subprojects/nexrl.md
-      - 推理框架 Energon: subprojects/energon.md
-      - 推理服务 Teletraan: subprojects/teletraan.md
-      - Pulsing: subprojects/pulsing.md
-      - Persisting: subprojects/persisting.md
-      - Probing: subprojects/probing.md
-      - SuperPod 白皮书: subprojects/superpod.md
+      - 训推框架:
+          - 预训练 AllSpark: subprojects/allspark.md
+          - 强化学习 NexRL: subprojects/nexrl.md
+          - 推理框架 Energon: subprojects/energon.md
+          - 推理服务 Teletraan: subprojects/teletraan.md
+      - 智能体运行时:
+          - Pulsing: subprojects/pulsing.md
+          - Persisting: subprojects/persisting.md
+          - Probing: subprojects/probing.md
+          - 分布式沙箱: subprojects/sandbox.md
+      - 超智融合计算:
+          - 科学算子: subprojects/science-operators.md
+          - 数据压缩: subprojects/science-compression.md
+          - 混合精度: subprojects/mixed-precision.md
+          - 工作流: subprojects/science-workflow.md
+      - 下一代算力架构:
+          - SuperPod 白皮书: subprojects/superpod.md
+          - 架构板块: subprojects/next-computing-architecture.md
       - 社区: community/index.md
       - 参与贡献: community/contributing.md
   - 新闻与博客: blog/index.md

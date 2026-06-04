@@ -4,31 +4,40 @@ icon: material/code-braces
 
 # 软件系统
 
-## 任务智能切片
+DeepLink Next 的软件系统围绕训推任务和 Agent Runtime 展开：上层承接模型训练、后训练和推理服务，下层通过运行时把执行、状态和观测统一起来。
 
-按计算图拓扑自动分解万亿参数模型，分配到跨域异构集群。拓扑感知、弹性切分、单节点故障自动恢复。
+## 训推框架
 
-## 长距通信库
+<div class="grid cards" markdown>
 
-通用 RoCE 网络上实现千公里级高效通信。自研拥塞控制、计算通信重叠、自适应梯度压缩。
+- :material-school-outline:{ .lg .middle } __预训练__
 
-## 异构混训框架
+    面向大模型训练任务，承接模型构建、数据流转和多芯片适配。
 
-3+ 款国产芯片在同一训练任务中协同。统一算子抽象、自动混合并行、动态负载均衡。
+- :material-rocket-launch-outline:{ .lg .middle } __后训练__
 
-## 元调度器（阶段二）
+    面向强化学习、Agent 训练和反馈闭环，让模型能力持续迭代。
 
-跨智算与超算资源的统一调度。感知 HPC 与 AI 任务差异，全局优化分派，抢占式与预留式混合调度。
+- :material-api:{ .lg .middle } __推理服务__
 
----
+    面向在线推理、多模型服务和应用接入，为上层 Agent 系统提供模型能力。
+
+</div>
 
 ## 智能体运行时
 
-| 组件 | 定位 | 亮点 |
-|------|------|------|
-| [Pulsing](https://deeplink-org.github.io/Pulsing/) | 分布式 Actor 运行时 | 零外部依赖、SWIM 发现、Python First |
-| [Persisting](https://deeplink-org.github.io/Persisting/) | 持久化存储引擎 | Lance 列式格式、可插拔后端、Pulsing 集成 |
-| [Probing](https://deeplink-org.github.io/probing/) | 零侵入分布式调试器 | SQL 驱动分析、动态注入、<5% 开销 |
-| 分布式沙箱 | 安全执行与隔离环境 | 规划中 |
+<div class="grid cards" markdown>
 
-[:material-arrow-right: 查看子项目概览及生态关系](../subprojects/index.md)
+- :material-server-network:{ .lg .middle } __Pulsing__
+
+    提供 Agent 的分布式执行运行时，承接环境、服务和任务实例的调度。
+
+- :material-database-outline:{ .lg .middle } __Persisting__
+
+    提供参数、轨迹和中间状态的存储与传输能力，让长期任务可以持续运行。
+
+- :material-stethoscope:{ .lg .middle } __Probing__
+
+    提供训推诊断和执行过程监控，让任务行为可以被追踪、分析和治理。
+
+</div>

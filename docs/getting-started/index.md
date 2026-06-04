@@ -4,66 +4,20 @@ icon: material/play-outline
 
 # 快速开始
 
-DeepLink 软件栈已开源。本指南帮助你快速部署一个最小化的 DeepLink 跨域训练环境。
+DeepLink Next 仍在按模块开放。当前页面只说明参与路径，不提供未经确认的安装命令。
 
 ## 前置条件
 
-- 2+ 台配备 NVIDIA GPU 或国产 AI 芯片的服务器
-- RoCE 网络互联（支持跨机房/跨数据中心）
-- Ubuntu 20.04+ 或 CentOS 7.9+
+- 了解 DeepLink Next 的四个模块：训推框架、智能体运行时、超智融合计算、下一代算力架构
+- 明确希望参与的项目方向
+- 准备可公开讨论的问题、场景或代码贡献
 
-## 安装 DeepLink 软件栈
+## 参与方式
 
-=== "pip 安装"
+- 浏览子项目页面，选择关注的模块
+- 通过 GitHub Issue 或 PR 参与讨论
+- 对仍在规划中的项目，可先提交场景需求或设计建议
 
-    ```bash
-    pip install deeplink-core deeplink-comm deeplink-train
-    ```
+## 当前状态
 
-=== "从源码构建"
-
-    ```bash
-    git clone https://github.com/deeplink-org/deeplink-next
-    cd deeplink-next
-    make install
-    ```
-
-## 配置跨域集群
-
-```bash
-# 在每个节点上初始化 DeepLink 运行时
-dlctl runtime init --role worker
-
-# 在主节点上创建跨域集群
-dlctl cluster create cross-domain \
-  --nodes node-shanghai:8gpu,node-wuxi:8gpu \
-  --network roce
-```
-
-## 提交跨域训练任务
-
-```python
-import deeplink as dl
-
-# 定义一个跨域混训任务
-job = dl.Job(
-    name="llama-70b-cross-domain",
-    model="llama-70b",
-    strategy=dl.Strategy(
-        slice="topology-aware",        # 任务智能切片
-        communication="long-haul",     # 长距通信库
-        heterogeneous=True,            # 异构混训
-    ),
-    nodes=["shanghai:8xA100", "wuxi:8xAscend"],
-)
-
-job.submit()
-job.wait()
-print(f"MFU: {job.mfu():.1%}")
-```
-
-## 下一步
-
-- [了解 DeepLink 三阶段演进](../overview/index.md)
-- [理解核心概念](../concepts/index.md)
-- [探索架构设计](../architecture/index.md)
+DeepLink Next 的站点优先用于介绍方向、项目边界和社区入口。具体安装、部署和运行文档将随各子项目成熟后补充。

@@ -4,9 +4,9 @@ icon: material/package-variant-closed
 
 # 开源子项目
 
-DeepLink Next 由多个独立的开源子项目构成，覆盖从模型训练、推理到智能体运行时的全链路。
+DeepLink Next 由多个独立的开源子项目构成，按能力边界分为 **训推框架**、**智能体运行时**、**超智融合计算** 和 **下一代算力架构** 四个板块。
 
-## 训练框架
+## 训推框架
 
 <div class="grid cards" markdown>
 
@@ -25,12 +25,6 @@ DeepLink Next 由多个独立的开源子项目构成，覆盖从模型训练、
     分布式强化学习框架。大规模并行 rollout、在线/离线混合训练、面向科学任务的奖励建模。与 Pulsing 深度集成。
 
     :material-clock-outline: 规划中
-
-</div>
-
-## 推理引擎
-
-<div class="grid cards" markdown>
 
 - :material-battery-charging:{ .lg .middle } __Energon__
 
@@ -58,7 +52,7 @@ DeepLink Next 由多个独立的开源子项目构成，覆盖从模型训练、
 
     ---
 
-    分布式 Actor 运行时。零外部依赖、SWIM 协议自动发现、流式消息原生支持、Python First。定位在 Ray 和裸 async 之间。
+    Agent 分布式执行运行时，负责承接环境、服务和任务实例的调度。
 
     [:material-github: 项目站点](https://deeplink-org.github.io/Pulsing/)
 
@@ -66,15 +60,15 @@ DeepLink Next 由多个独立的开源子项目构成，覆盖从模型训练、
 
     ---
 
-    分层持久化存储引擎。基于 Lance 列式格式，管理参数、KV Cache 与 Trajectories。可插拔后端架构，与 Pulsing 深度集成。
+    参数、轨迹和中间状态的存储与传输能力，支撑长期任务持续运行。
 
-    [:material-github: 项目站点](https://deeplink-org.github.io/Persisting/)
+    [:material-github: 项目站点](https://deeplink-org.github.io/Persisting/zh/)
 
 - :material-bug-outline:{ .lg .middle } __Probing__
 
     ---
 
-    零侵入分布式调试器。SQL 驱动的性能分析（Apache DataFusion）、动态代码注入、<5% 性能开销。
+    训推诊断与执行过程监控能力，让任务行为可以被追踪和分析。
 
     [:material-github: 项目站点](https://deeplink-org.github.io/probing/)
 
@@ -88,62 +82,78 @@ DeepLink Next 由多个独立的开源子项目构成，覆盖从模型训练、
 
 </div>
 
----
+## 超智融合计算
 
-## 生态关系
+<div class="grid cards" markdown>
 
-```mermaid
-flowchart TB
-    subgraph Training["训练框架"]
-        AllSpark["AllSpark<br/>预训练"]
-        NexRL["NexRL<br/>强化学习"]
-    end
+- :material-function-variant:{ .lg .middle } __科学算子__
 
-    subgraph Inference["推理引擎"]
-        Energon["Energon<br/>推理框架"]
-        Teletraan["Teletraan<br/>推理服务化"]
-    end
+    ---
 
-    subgraph Runtime["智能体运行时"]
-        Pulsing["Pulsing<br/>Actor 运行时"]
-        Persisting["Persisting<br/>持久化存储"]
-        Probing["Probing<br/>分布式调试"]
-        Sandbox["分布式沙箱<br/>规划中"]
-    end
+    将分子动力学、CFD、电磁仿真、量子化学等传统 HPC 算子表达为可被 AI 框架调度、可被超智融合芯片加速的标准化接口。
 
-    AllSpark -->|"模型权重"| NexRL
-    AllSpark -->|"checkpoint"| Persisting
-    NexRL -->|"分布式 rollout"| Pulsing
-    Energon -->|"推理能力"| Teletraan
-    Energon -->|"KV Cache"| Persisting
-    Teletraan -->|"注册 Actor"| Pulsing
-    Pulsing -->|"持久化队列"| Persisting
-    Probing -->|"性能观测"| Pulsing
-    Probing -->|"存储观测"| Persisting
-    Probing -.->|"调试注入"| Energon
-    Probing -.->|"调试注入"| Teletraan
-    Sandbox -.->|"安全边界"| Pulsing
-    Sandbox -.->|"安全边界"| Teletraan
-```
+    :material-clock-outline: 规划中
 
-| 层级 | 数据流 | 说明 |
-|------|--------|------|
-| **训练 → 推理** | AllSpark → Energon | AllSpark 预训练产出的模型权重，由 Energon 加载执行推理 |
-| **预训练 → RL** | AllSpark → NexRL | AllSpark 的基础模型作为 NexRL 强化学习的初始策略 |
-| **RL → 运行时** | NexRL → Pulsing | NexRL 利用 Pulsing 的分布式 Actor 管理大规模并行 rollout |
-| **推理框架 → 服务化** | Energon → Teletraan | Teletraan 基于 Energon 提供 OpenAI 兼容 API 与多模型路由 |
-| **推理 → 存储** | Energon → Persisting | 推理过程中的 KV Cache 持久化到 Persisting，支持跨会话复用 |
-| **服务化 → 运行时** | Teletraan → Pulsing | 每个推理服务实例注册为 Pulsing Actor，纳入统一的发现与调度 |
-| **运行时内部** | Pulsing ↔ Persisting | Pulsing 的 Actor 状态与消息队列由 Persisting 提供持久化保障 |
-| **全链路观测** | Probing → All | Probing 可注入任何运行中进程，提供统一的 SQL 驱动性能分析 |
-| **安全隔离** | Sandbox → Pulsing/Teletraan | 沙箱为 Actor 执行和推理服务提供受限的安全边界 |
+- :material-folder-zip:{ .lg .middle } __科学数据压缩__
 
----
+    ---
 
-## 超节点技术体系白皮书
+    面向 AI4S 场景的数据压缩与传输优化，提供科学数据专用压缩算法、自适应精度控制和解码端零拷贝还原。
 
-[SuperPod Technical White Paper](https://deeplink-org.github.io/superpod-whitepaper/) v1.0，2026 年 3 月发布，联合 **8 所高校及科研机构**、**16 家产业伙伴**共同编著。
+    :material-clock-outline: 规划中
 
-全书六章：架构分析 → 软件系统 → 建模仿真 → 参考设计 → 未来演进 → 总结。配套 SuperPod Pareto Index (SPI) 评估框架与产业生态地图。
+- :material-factory:{ .lg .middle } __混合精度__
 
-[:material-book-open-page-variant: 阅读白皮书](https://deeplink-org.github.io/superpod-whitepaper/){ .md-button }
+    ---
+
+    在 FP64 科学计算与 FP16/BF16 AI 计算之间自动选择精度，控制误差传播并提升超智融合芯片利用率。
+
+    :material-clock-outline: 规划中
+
+- :material-graph-outline:{ .lg .middle } __科学工作流__
+
+    ---
+
+    将仿真、分析、建模、验证等多步骤科学任务表达为可调度、可复现的计算图，支持断点续跑与参数扫描。
+
+    :material-clock-outline: 规划中
+
+</div>
+
+## 下一代算力架构
+
+<div class="grid cards" markdown>
+
+- :material-transit-connection-variant:{ .lg .middle } __DeepLink.Across__
+
+    ---
+
+    跨域互联能力建设，让跨地域、跨中心算力能够以更统一的方式参与上层训推任务。
+
+    :material-clock-outline: 规划中
+
+- :material-graph-outline:{ .lg .middle } __DeepLink.Fabric__
+
+    ---
+
+    下一代算力架构底座，承接更高层次的算力架构统一与软硬协同演进。
+
+    :material-clock-outline: 规划中
+
+- :material-book-open-page-variant:{ .lg .middle } __SuperPod 白皮书__
+
+    ---
+
+    超节点技术体系白皮书 v1.0，联合 8 所高校及科研机构、16 家产业伙伴共同编著，沉淀架构分析、参考设计、SPI 评估框架与产业生态地图。
+
+    [:material-book-open-page-variant: 阅读白皮书](https://deeplink-org.github.io/superpod-whitepaper/)
+
+- :material-sitemap-outline:{ .lg .middle } __架构板块__
+
+    ---
+
+    下一代算力架构板块的项目入口，聚焦 Across、Fabric 与 SuperPod 相关方向。
+
+    [:material-arrow-right: 查看架构板块](next-computing-architecture.md)
+
+</div>

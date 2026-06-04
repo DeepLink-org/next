@@ -4,44 +4,40 @@ icon: material/puzzle-outline
 
 # 核心组件
 
-## 任务智能切片
+核心组件页只保留 DeepLink Next 的关键能力边界。更细的项目说明由各子项目页面承接。
 
-按计算图拓扑自动分解万亿参数模型，分配到跨域异构集群。拓扑感知、弹性切分、单节点故障自动恢复。
+## 软件能力
 
-## 长距通信库
+<div class="grid cards" markdown>
 
-通用 RoCE 网络上实现千公里级高效通信。自研拥塞控制、计算通信重叠、自适应梯度压缩。
+- :material-source-branch:{ .lg .middle } __训推框架__
 
-## 异构混训框架
+    承接预训练、后训练、推理服务和模型适配，是上层模型能力的工程入口。
 
-3+ 款国产芯片在同一训练任务中协同。统一算子抽象、自动混合并行、动态负载均衡。
+- :material-robot-outline:{ .lg .middle } __Agent Runtime__
 
-## 元调度器（阶段二）
+    承接 Agent 的分布式执行、状态持久化、过程诊断和安全隔离。
 
-跨智算与超算资源的统一调度。感知 HPC 与 AI 任务差异，全局优化分派，抢占式与预留式混合调度。
+- :material-atom:{ .lg .middle } __超智融合计算__
 
-## 跨域专用硬件（阶段二）
+    承接科学算子、数据压缩、混合精度和 AI4S 工作流。
 
-超算-智算互联定制硬件：距离感知 IP 核、链路加速引擎、协议转换桥。
+</div>
 
-## 超智融合芯片（阶段三）
+## 算力架构
 
-单片集成 AI Tensor Core 与 FP64 Unit。片上统一缓存，AI 与 HPC 共享 L2 Cache。
+<div class="grid cards" markdown>
 
-## 可重构组网（阶段三）
+- :material-transit-connection-variant:{ .lg .middle } __DeepLink.Across__
 
-同一物理网络承载 Full Mesh 与 3D Torus。固定路径 + 可重构链路，按负载动态切换。
+    面向跨地域、跨中心的算力连接能力建设。
 
----
+- :material-graph-outline:{ .lg .middle } __DeepLink.Fabric__
 
-## 智能体运行时
+    面向下一代算力架构底座，承接更高层次的算力架构统一。
 
-| 组件 | 定位 | 亮点 |
-|------|------|------|
-| [Pulsing](https://deeplink-org.github.io/Pulsing/) | 分布式 Actor 运行时 | 零外部依赖、SWIM 发现、Python First |
-| [Persisting](https://deeplink-org.github.io/Persisting/) | 持久化存储引擎 | Lance 列式格式、可插拔后端、Pulsing 集成 |
-| [Probing](https://deeplink-org.github.io/probing/) | 零侵入分布式调试器 | SQL 驱动分析、动态注入、<5% 开销 |
-| 分布式沙箱 | 安全执行与隔离环境 | 规划中 |
+- :material-book-open-page-variant:{ .lg .middle } __SuperPod__
 
-[:material-arrow-right: 查看子项目概览及生态关系](../subprojects/index.md)
-[:material-arrow-right: 了解超节点技术体系白皮书](https://deeplink-org.github.io/superpod-whitepaper/)
+    沉淀超节点参考设计、评估框架和产业生态。
+
+</div>

@@ -178,18 +178,18 @@
 
     <g transform="translate(34, 54)">
       <rect class="infer" width="300" height="54" rx="12"/>
-      <text class="label" x="150" y="22" text-anchor="middle">跨域超智协同（Scale Across）</text>
+      <text class="label" x="150" y="22" text-anchor="middle">跨域超智协同</text>
       <text class="small" x="150" y="40" text-anchor="middle">纯软件跨域互联 · 异构国产芯片可用</text>
     </g>
     <g transform="translate(382, 54)">
       <rect class="hardware" width="300" height="54" rx="12"/>
       <text class="label" x="150" y="22" text-anchor="middle">下一代计算的硬件架构（Scale Up/Out）</text>
-      <text class="small" x="150" y="40" text-anchor="middle">跨域专用硬件 · Full Mesh 与 3D Torus 互联</text>
+      <text class="small" x="150" y="40" text-anchor="middle">跨域互联能力 · 连接分散算力资源</text>
     </g>
     <g transform="translate(730, 54)">
       <rect class="fusion" width="300" height="54" rx="12"/>
       <text class="label" x="150" y="22" text-anchor="middle">多精度算力芯片（Scale Inside）</text>
-      <text class="small" x="150" y="40" text-anchor="middle">融合芯片 · 可重构组网 · 同集群合建</text>
+      <text class="small" x="150" y="40" text-anchor="middle">统一算力底座 · 同体系协同演进</text>
     </g>
 
     <path class="flow" d="M 334 81 L 374 81"/>

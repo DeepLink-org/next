@@ -6,7 +6,7 @@ icon: material/lightbulb-outline
 
 ## 从国产适配到 AI4S 算力基座
 
-DeepLink Next 的核心概念经历了三个阶段的扩展：从最初的国产化适配——让不同厂商的 AI 芯片在同一任务中协同工作；到跨域异构——把万卡千公里的分散算力编织成一张可编程的算力平面；再到面向 AI for Science 的完整算力体系——软件能力持续上移，硬件体系持续融合，智能体运行时成为连接模型、科学任务与算力系统的中间层。
+DeepLink Next 的核心概念经历了三个阶段的扩展：从最初的国产化适配——让不同厂商的 AI 芯片在同一任务中协同工作；到跨域异构——把分散算力纳入统一算力基座；再到面向 AI for Science 的完整算力体系——软件能力持续上移，硬件体系持续融合，智能体运行时成为连接模型、科学任务与算力系统的中间层。
 
 ## 关键概念
 
@@ -14,7 +14,7 @@ DeepLink Next 的核心概念经历了三个阶段的扩展：从最初的国产
 
 - :material-target:{ .lg .middle } __AI for Science__
 
-    科学发现的新范式。DeepLink Next 将超算与智算融合为一张可编程的算力平面，让 AI4S 从实验走向规模化。
+    科学发现的新范式。DeepLink Next 让超算与智算在统一算力基座中协同，让 AI4S 从实验走向规模化。
 
 - :material-source-branch:{ .lg .middle } __软件能力演进__
 
@@ -22,15 +22,11 @@ DeepLink Next 的核心概念经历了三个阶段的扩展：从最初的国产
 
 - :material-robot-outline:{ .lg .middle } __Agent Infra__
 
-    面向长期运行、状态管理、环境探索和安全执行的智能体基础设施，不只是推理服务扩展。详见 [Pulsing](https://deeplink-org.github.io/Pulsing/)、[Persisting](https://deeplink-org.github.io/Persisting/) 和 [Probing](https://deeplink-org.github.io/probing/) 三个开源子项目。
+    面向长期运行、状态管理、环境探索和安全执行的智能体基础设施，不只是推理服务扩展。
 
 - :material-memory:{ .lg .middle } __硬件演进__
 
     纯软件跨域 → 软硬协同 → 超融合。硬件从互联工具演进为体系结构共同设计。
-
-- :material-vector-polyline:{ .lg .middle } [__算力平面__](compute-fabric.md)
-
-    跨集群、跨区域、跨超算-智算的算力互联平面，是跨域训练和超智互联的基础。
 
 - :material-target:{ .lg .middle } __超融合__
 
@@ -38,18 +34,3 @@ DeepLink Next 的核心概念经历了三个阶段的扩展：从最初的国产
 
 </div>
 
-## 两条演进轴
-
-```mermaid
-flowchart TB
-    Goal["AI for Science"] --> Model["下一代模型架构与演进"]
-    Model --> Software["软件能力演进：国产异构到智能体 Infra"]
-    Model --> Hardware["硬件演进：纯软件跨域到超融合"]
-    Software --> Runtime["智能体运行时底座"]
-    Hardware --> Runtime
-```
-
-> 软件能力解决"模型和智能体如何运行"，硬件演进解决"算力系统如何被建造"。两者共同服务 AI for Science 这一战略目标。
-
-[:material-arrow-right: 探索架构设计](../architecture/index.md)
-[:material-arrow-right: 查看整体路线图](../overview/index.md)
